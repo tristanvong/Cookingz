@@ -23,6 +23,7 @@ class User extends Authenticatable
      public const ADMIN = 'admin';
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
         'role',
