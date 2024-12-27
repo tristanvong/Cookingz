@@ -21,13 +21,13 @@ class RecipeSeeder extends Seeder
         $users = User::all();
         $categories = Category::all();
 
-        for ($i = 1; $i < 20; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $recipe = Recipe::create([
                 'title' => $faker->sentence(),
                 'description' => $faker->paragraph(),
                 'ingredients' => $faker->words(rand(5, 10), true),
                 'instructions' => $faker->paragraph(),
-                'image' => $faker->imageUrl(),
+                'image' => rand(0, 1) ? "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg" : null,
                 'user_id' => $users->random()->id,
                 'category_id' => $categories->random()->id,
                 'country' => $faker->country(),
