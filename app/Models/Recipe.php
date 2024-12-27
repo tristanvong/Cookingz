@@ -18,6 +18,11 @@ class Recipe extends Model
         'preparation_time',
     ];
 
+    public function avgRating()
+    {
+        return $this->reviews->avg('rating') ?: 0;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
