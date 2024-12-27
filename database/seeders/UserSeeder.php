@@ -24,5 +24,12 @@ class UserSeeder extends Seeder
                 'role' => User::USER,
             ]);
         }
+
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@ehb.be',
+            'password' => bcrypt('Password!321'),
+            'role' => User::ADMIN,
+        ]);
     }
 }
