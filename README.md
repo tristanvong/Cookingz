@@ -1,6 +1,6 @@
 <p align="center">
     <img 
-    src="https://raw.githubusercontent.com/tristanvong/Cookingz/4063e606c82e8a38fedf9471a8f44fbe6dc8fff1/public/images/logo.png" 
+    src="https://raw.githubusercontent.com/tristanvong/Cookingz/refs/heads/Feature/Layout-for-whole-site/public/images/logo.png"
     alt="Cookingz Logo">
 </p>
 
