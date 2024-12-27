@@ -20,7 +20,7 @@ Follow these steps to set up Cookingz locally:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/cookingz.git
+   git clone https://github.com/tristanvong/Cookingz.git
    ```
    
 2. **cd into the project:**
