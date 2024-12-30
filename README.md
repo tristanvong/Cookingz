@@ -26,7 +26,7 @@ Follow these steps to set up Cookingz locally:
 2. **cd into the project:**
 
     ```bash
-    cd cookingz
+    cd Cookingz
     ```
     
 3. **download all the packages:**
