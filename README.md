@@ -57,4 +57,4 @@ Follow these steps to set up Cookingz locally:
     ```
    
 ## Information (ER-Diagram, Kanban Trello and source credits)
-- <a href="https://rentry.co/cookingz" target="_blank">rentry.co/cookingz</a>
+- [rentry.co/cookingz](https://rentry.co/cookingz)
