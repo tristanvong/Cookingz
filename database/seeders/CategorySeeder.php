@@ -20,6 +20,7 @@ class CategorySeeder extends Seeder
             Category::create([
                 'name' => $faker->unique()->word(),
                 'description' => $faker->sentence(),
+                'type' => rand(0, 1) ? 'recipe' : 'faq',
             ]);
         }
     }

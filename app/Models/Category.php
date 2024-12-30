@@ -9,7 +9,18 @@ class Category extends Model
     protected $fillable = [
         'name',
         'description',
+        'type',
     ];
+
+    public function scopeRecipeCategories($query)
+    {
+        return $query->where('type', 'recipe');
+    }
+
+    public function scopeFaqCategories($query)
+    {
+        return $query->where('type', 'faq');
+    }
 
     public function faqItems()
     {
