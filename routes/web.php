@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\FAQController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::controller(FAQController::class)->group(function() {
+    Route::get('/faqs', 'index')->name('faqs.index');
+    Route::get('/faqs/category/{id}', 'showCategory')->name('faqs.category');
 });
 
 Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
