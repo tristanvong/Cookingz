@@ -2,23 +2,30 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Recipe;
-use App\Models\User;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RecipeController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    $recipes = Recipe::with('user', 'reviews')->get();
-    $users = User::all();
-    return view('test', compact('recipes', 'users'));
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(RecipeController::class)->group(function(){
+    Route::get('/recipes', 'index')->name('recipes.index');
+    Route::get('/recipe/{id}', 'show')->name('recipe');
+});
+
+Route::middleware('auth')->controller(RecipeController::class)->group(function(){
+    Route::get('/recipes/create', 'create')->name('recipes.create');
+    Route::post('/recipes/create', 'store')->name('recipes.store');
+    Route::get('/recipes/{id}/edit', 'edit')->name('recipes.edit');
+    Route::put('/recipes/{id}', 'update')->name('recipes.update');
+    Route::delete('/recipes/{id}', 'destroy')->name('recipes.destroy');
+    Route::get('/my-recipes', 'listUserRecipes')->name('recipes.user');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

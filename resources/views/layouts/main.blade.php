@@ -19,7 +19,7 @@
         }
     </style>
 </head>
-<body class="background-pattern font-sans flex flex-col min-h-screen">
+<body class="background-pattern font-sans flex flex-col min-h-screen selection:bg-amber-500 selection:text-white">
     <header class="background-pattern">
         @include('components.navigation-bar')
     </header>

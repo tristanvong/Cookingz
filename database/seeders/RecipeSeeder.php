@@ -49,7 +49,7 @@ class RecipeSeeder extends Seeder
             $recipe = Recipe::create([
                 'title' => $faker->sentence(),
                 'description' => $faker->paragraph(),
-                'ingredients' => $faker->words(rand(5, 10), true),
+                'ingredients' => json_encode($faker->words(rand(5, 10))),
                 'instructions' => $faker->paragraph(),
                 'image' => $image,
                 'user_id' => $users->random()->id,

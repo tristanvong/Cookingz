@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
+use App\Models\User;
 
 class RecipeController extends Controller
 {
-    public function create()
+    public function getCountriesByRegion()
     {
-
-        $countriesByRegion = [
+        return [
             'Africa' => [
                 'Algeria', 'Angola', 'Benin', 'Botswana', 'Burkina Faso', 'Burundi', 'Cameroon', 'Cape Verde', 'Chad', 'Comoros',
                 'Côte d\'Ivoire', 'Congo (Congo-Brazzaville)', 'Democratic Republic of the Congo', 'Djibouti', 'Egypt', 'Eritrea', 
@@ -49,8 +49,25 @@ class RecipeController extends Controller
                 'Nauru', 'New Zealand', 'Palau', 'Papua New Guinea', 'Samoa', 'Solomon Islands', 'Tonga', 'Tuvalu', 'Vanuatu'
             ]
         ];
-        
+    }
 
+    public function index()
+    {
+        $recipes = Recipe::with('user', 'reviews')->get();
+        $users = User::all();
+        return view('recipes.listAllRecipes', compact('recipes', 'users'));
+    }
+
+    public function show($id)
+    {
+        $recipe = Recipe::with('user', 'reviews')->findOrFail($id);
+        return view('recipes.recipe', compact('recipe'));
+    }
+
+    public function create()
+    {
+
+        $countriesByRegion = $this->getCountriesByRegion();
         $categories = Category::recipeCategories()->get();
         return view('recipes.create', compact('categories', 'countriesByRegion'));
     }
@@ -87,6 +104,76 @@ class RecipeController extends Controller
             'preparation_time' => $request->preparation_time,
         ]);
 
-        return redirect()->route('recipes.create');
+        return redirect()->route('recipes.user');
+    }
+
+    public function edit($id)
+    {
+        $recipe = Recipe::findOrFail($id);
+        if ($recipe->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $categories = Category::recipeCategories()->get();
+        $countriesByRegion = $this->getCountriesByRegion();
+
+        return view('recipes.edit', compact('recipe', 'categories', 'countriesByRegion'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $recipe = Recipe::findOrFail($id);
+        if ($recipe->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'ingredients' => 'required|array',
+            'ingredients.*' => 'required|string',
+            'instructions' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'category_id' => 'nullable|exists:categories,id',
+            'country' => 'required|string|max:255',
+            'preparation_time' => 'required|integer',
+        ]);
+
+        $imagePath = $recipe->image;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('recipe_images', 'public');
+        }
+
+        $recipe->update([
+            'title' => $request->title,
+            'ingredients' => json_encode($request->ingredients),
+            'instructions' => $request->instructions,
+            'description' => $request->description,
+            'image' => $imagePath,
+            'category_id' => $request->category_id,
+            'country' => $request->country,
+            'preparation_time' => $request->preparation_time,
+        ]);
+
+        return redirect()->route('recipes.user');
+    }
+
+    public function listUserRecipes()
+    {
+        $recipes = Recipe::where('user_id', Auth::id())->with('category')->get();
+        return view('recipes.myRecipesList', compact('recipes'));
+    }
+
+    public function destroy($id)
+    {
+        $recipe = Recipe::findOrFail($id);
+
+        if (Auth::id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $recipe->delete();
+        return redirect()->route('recipes.user');
     }
 }
