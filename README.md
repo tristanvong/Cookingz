@@ -56,5 +56,5 @@ Follow these steps to set up Cookingz locally:
     php artisan serve && npm run dev
     ```
    
-## Source Credits:
-- [Kanban Trello](https://trello.com/b/zEEBwU9s/kanban-backend-web-cookingz)
+## Information (ER-Diagram, Kanban Trello and source credits)
+- [rentry.co/cookingz](https://rentry.co/cookingz)
