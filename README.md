@@ -33,9 +33,6 @@ Follow these steps to set up Cookingz locally:
 
     ```bash
     composer install
-    ```
-    
-    ```bash
     npm i
     ```
     
@@ -46,14 +43,14 @@ Follow these steps to set up Cookingz locally:
     ```
     
     If this doesn't work, it likely means that the file needs to be executable:
-    
     ```bash
     chmod +x start.sh
     ```
     
-    If the script still doesn't work please do:
+    If the script still doesn't work please do (in separate terminals):
     ```bash
-    php artisan serve && npm run dev
+    php artisan serve
+    npm run dev
     ```
    
 ## Information (ER-Diagram, Kanban Trello and source credits)
