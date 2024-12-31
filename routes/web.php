@@ -7,6 +7,17 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CategoryController;
 
+Route::prefix('profile')
+    ->name('profile.')
+    ->middleware('auth')
+    ->controller(ProfileController::class)
+    ->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+        Route::delete('/', 'destroy')->name('destroy');
+});
+
+// this stuff will be overwritten so will keep it for now
 Route::get('/', function () {
     return view('welcome');
 });
@@ -14,52 +25,66 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+// --- end of overwritten stuff ---
 
-Route::controller(RecipeController::class)->group(function(){
-    Route::get('/recipes', 'index')->name('recipes.index');
-    Route::get('/recipe/{id}', 'show')->name('recipe');
+Route::name('recipes.')
+    ->controller(RecipeController::class)
+    ->group(function(){
+        Route::get('/recipes', 'index')->name('index');
+        Route::get('/recipe/{id}', 'show')->name('recipe');
 });
 
-Route::middleware('auth')->controller(RecipeController::class)->group(function(){
-    Route::get('/recipes/create', 'create')->name('recipes.create');
-    Route::post('/recipes/create', 'store')->name('recipes.store');
-    Route::get('/recipes/{id}/edit', 'edit')->name('recipes.edit');
-    Route::put('/recipes/{id}', 'update')->name('recipes.update');
-    Route::delete('/recipes/{id}', 'destroy')->name('recipes.destroy');
-    Route::get('/my-recipes', 'listUserRecipes')->name('recipes.user');
+Route::name('recipes.')
+    ->middleware('auth')
+    ->controller(RecipeController::class)
+    ->group(function(){
+        Route::get('/recipes/create', 'create')->name('create');
+        Route::post('/recipes/create', 'store')->name('store');
+        Route::get('/recipes/{id}/edit', 'edit')->name('edit');
+        Route::put('/recipes/{id}', 'update')->name('update');
+        Route::delete('/recipes/{id}', 'destroy')->name('destroy');
+        Route::get('/my-recipes', 'listUserRecipes')->name('user');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::prefix('categories')
+    ->name('categories.')
+    ->middleware('isAdmin')
+    ->controller(CategoryController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('{category}/edit', 'edit')->name('edit');
+        Route::put('{category}', 'update')->name('update');
+        Route::delete('{category}', 'destroy')->name('destroy');
 });
 
-Route::controller(FAQController::class)->group(function() {
-    Route::get('/faqs', 'index')->name('faqs.index');
-    Route::get('/faqs/category/{id}', 'showCategory')->name('faqs.category');
+Route::prefix('faqs')
+    ->name('faqs.')
+    ->controller(FAQController::class)
+    ->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::get('/category/{id}', 'showCategory')->name('category');
 });
 
-// only admin -> middleware is WIP [work in progress] will add middleware later
-Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::prefix('faq')
+    ->name('faqs.')
+    ->middleware('isAdmin')
+    ->controller(FAQController::class)
+    ->group(function () {
+        Route::get('create', 'create')->name('create');
+        Route::post('create', 'store')->name('store');
+        Route::get('{id}/edit', 'edit')->name('edit');
+        Route::put('{id}', 'update')->name('update');
+        Route::delete('{id}', 'destroy')->name('destroy');
+});
 
-Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
-Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');
-
-Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-Route::put('categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
-
-Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-
-Route::get('/faq/create', [FAQController::class, 'create'])->name('faqs.create');
-Route::post('/faq/create', [FAQController::class, 'store'])->name('faqs.store');
-
-Route::get('/faq/{id}/edit', [FAQController::class, 'edit'])->name('faqs.edit');
-Route::put('/faq/{id}', [FAQController::class, 'update'])->name('faqs.update');
-
-Route::delete('/faq/{id}', [FAQController::class, 'destroy'])->name('faqs.destroy');
-
-Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-Route::post('/make-admin/{id}', [UserController::class, 'makeAdmin'])->name('makeAdmin');
-// only admin
+Route::prefix('user')
+    ->name('user.')
+    ->middleware('isAdmin')
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::delete('{id}', 'destroy')->name('destroy');
+        Route::post('make-admin/{id}', 'makeAdmin')->name('makeAdmin');
+});
 require __DIR__.'/auth.php';

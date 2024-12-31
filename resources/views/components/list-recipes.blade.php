@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="mt-4">
-                <a href="{{ route('recipe', $recipe->id) }}" class="inline-block py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700">View Recipe</a>
+                <a href="{{ route('recipes.recipe', $recipe->id) }}" class="inline-block py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700">View Recipe</a>
             </div>
         </div>
     @endforeach
