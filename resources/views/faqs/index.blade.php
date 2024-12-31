@@ -10,7 +10,7 @@
                 <h2 class="text-lg font-bold text-gray-800">{{ $category->name }}</h2>
                 <p class="text-sm text-gray-600">{{ $category->description }}</p>
                 <div class="mt-4">
-                    <a href="{{ route('faqs.category', $category->id) }}" class="inline-block py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700">View FAQs</a>
+                    <a href="{{ route('faqs.category', $category->id) }}" class="inline-block py-2 px-4 bg-amber-500 text-white rounded-lg hover:bg-amber-600">View FAQs</a>
                 </div>
             </div>
         @endforeach
