@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class FAQItem extends Model
 {
@@ -12,4 +13,9 @@ class FAQItem extends Model
         'answer',
         'category_id',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
