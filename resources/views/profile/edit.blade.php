@@ -14,7 +14,7 @@
         </form>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full flex-grow">
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="w-full">
                 @include('profile.partials.update-profile-information-form')
