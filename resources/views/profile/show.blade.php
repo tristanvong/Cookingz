@@ -1,8 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Profilepage')
 @section('content')
-<div class="container mx-auto px-4 py-8">
-        <div class="bg-white shadow-md rounded-lg p-6">
+<div class="container mx-auto px-4 py-8 flex justify-center">
+        <div class="bg-white shadow-md rounded-lg p-6 lg:w-4/5">
             <div class="text-center">
                 @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
                     @include('components.profile-picture', ['user' => $user])
