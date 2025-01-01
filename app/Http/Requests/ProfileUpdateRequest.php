@@ -17,6 +17,12 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique(User::class)->ignore($this->user()->id),
+            ],
             'email' => [
                 'required',
                 'string',
@@ -25,6 +31,30 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'date_of_birth' => [
+                'nullable',
+                'date',
+                'before:-13 years',
+                'after:-100 years',
+            ],
+            'about_me' => [
+                'nullable', 
+                'string'
+            ],
+            'profile_picture' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,svg',
+                'max:2048',
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'date_of_birth.before' => 'You must be at least 13 years old.',
+            'date_of_birth.after' => 'You cannot be older than 100 years old.',
         ];
     }
 }
