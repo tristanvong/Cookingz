@@ -82,17 +82,9 @@
                 <label for="profile_picture" class="block text-gray-700 font-bold mb-2">Profile Picture</label>
 
                 @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
-                    <div class="mb-4">
-                        @include('components.profile-picture', ['user' => $user])
-                    </div>
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => false])
                 @else
-                    <div class="bg-yellow-100 text-yellow-800 border-l-4 border-yellow-500 p-4 rounded-lg shadow-md max-w-max my-4">
-                        <div class="flex items-center">
-                            <p class="text-sm font-medium">
-                                You do not have a profile picture yet.
-                            </p>
-                        </div>
-                    </div>
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => true])
                 @endif
 
                 <input type="file" name="profile_picture" id="profile_picture" 

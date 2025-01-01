@@ -5,13 +5,10 @@
         <div class="bg-white shadow-md rounded-lg p-6 lg:w-4/5">
             <div class="text-center">
                 @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
-                    @include('components.profile-picture', ['user' => $user])
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => false])
                 @else
-                    <div class="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
-                        <span class="text-gray-500 text-lg">No Image</span>
-                    </div>
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => true])
                 @endif
-
                 
                 <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
                 
@@ -19,8 +16,6 @@
                     <span>@</span>
                     <span>{{ $user->username }}</span>
                 </p>
-                
-                
             </div>
 
             <div class="mt-6">
