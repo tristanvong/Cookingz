@@ -7,7 +7,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CategoryController;
 
-Route::prefix('profile')
+Route::prefix('p')
     ->name('profile.')
     ->middleware('auth')
     ->controller(ProfileController::class)
@@ -15,6 +15,13 @@ Route::prefix('profile')
         Route::get('/', 'edit')->name('edit');
         Route::patch('/', 'update')->name('update');
         Route::delete('/', 'destroy')->name('destroy');
+});
+
+Route::prefix('p')
+    ->name('profile.')
+    ->controller(ProfileController::class)
+    ->group(function () {
+        Route::get('/{id}', 'show')->name('show');
 });
 
 // this stuff will be overwritten so will keep it for now

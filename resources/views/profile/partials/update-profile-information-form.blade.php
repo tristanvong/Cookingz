@@ -1,64 +1,106 @@
-<section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
-        </h2>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">Profile Information</h1>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
-        </p>
-    </header>
+    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+            @csrf
+            @method('patch')
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
+            @if (session('status') === 'profile-updated')
+                <div class="my-2 w-max bg-green-500 text-white p-4 rounded-lg shadow-md opacity-90">
+                    <p class="text-md font-medium">Successfully Saved Data</p>
+                </div>
+            @endif
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-        @csrf
-        @method('patch')
 
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
-        </div>
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input type="text" name="name" id="name" 
+                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500" 
+                       value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+                @error('name')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
+                <input type="text" name="username" id="username" 
+                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500" 
+                       value="{{ old('username', $user->username) }}" required>
+                @error('username')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                <input type="email" name="email" id="email" 
+                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500" 
+                       value="{{ old('email', $user->email) }}" required autocomplete="username">
+                @error('email')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
+                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                    <p class="text-sm mt-2 text-gray-800">
+                        Your email address is unverified.
+                        <button form="send-verification" 
+                                class="underline text-sm text-indigo-600 hover:text-indigo-800 focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
+                                Click here to re-send the verification email.
                         </button>
                     </p>
 
                     @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                        <p class="mt-2 text-sm font-medium text-green-600">
+                            A new verification link has been sent to your email address.
                         </p>
                     @endif
-                </div>
-            @endif
-        </div>
+                @endif
+            </div>
 
-        <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <div class="mb-4">
+                <label for="date_of_birth" class="block text-gray-700 font-bold mb-2">Date of Birth</label>
+                <input type="date" name="date_of_birth" id="date_of_birth" 
+                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500" 
+                       value="{{ old('date_of_birth', $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : '') }}">
+                @error('date_of_birth')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
-        </div>
-    </form>
-</section>
+            <div class="mb-4">
+                <label for="about_me" class="block text-gray-700 font-bold mb-2">About Me</label>
+                <textarea name="about_me" id="about_me" rows="4"
+                          class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500">{{ old('about_me', $user->about_me) }}</textarea>
+                @error('about_me')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="profile_picture" class="block text-gray-700 font-bold mb-2">Profile Picture</label>
+
+                @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => false])
+                @else
+                    @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => true])
+                @endif
+
+                <input type="file" name="profile_picture" id="profile_picture" 
+                       class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
+                @error('profile_picture')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+
+            </div>
+
+            <div class="mt-6 flex items-center gap-4">
+                <button type="submit" 
+                        class="py-2 px-4 bg-amber-500 text-white font-bold rounded-lg hover:bg-amber-600 focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
