@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
         <div class="bg-white shadow-md rounded-lg p-6">
-            <div class="text-center">
+            <div>
                 @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
                     @include('components.profile-picture', ['user' => $user])
                 @else
@@ -12,12 +12,14 @@
                     </div>
                 @endif
 
-                <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
-                
-                <p class="text-gray-600 text-xl inline-flex">
-                    <span>@</span>
-                    <span>{{ $user->username }}</span>
-                </p>
+                <div class="text-center">
+                    <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
+                    
+                    <p class="text-gray-600 text-xl inline-flex">
+                        <span>@</span>
+                        <span>{{ $user->username }}</span>
+                    </p>
+                </div>
                 
             </div>
 
