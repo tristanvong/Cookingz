@@ -36,6 +36,11 @@ class ReviewController extends Controller
     {
         $review = Review::where('id', $id)->where('recipe_id', $recipeId)->firstOrFail();
 
+        if($review->user_id !== auth()->id()) {
+            return redirect()->route('recipes.recipe', $recipeId)
+                             ->with('error', 'You are not authorized to edit this review.');
+        }
+
         return view('reviews.edit', [
             'review' => $review,
             'recipeId' => $recipeId,
@@ -51,6 +56,11 @@ class ReviewController extends Controller
             'comment' => 'required|string|max:1000',
         ]);
 
+        if($review->user_id !== auth()->id()) {
+            return redirect()->route('recipes.recipe', $review->recipe_id)
+                             ->with('error', 'You are not authorized to edit this review.');
+        }
+
         $review->update($validated);
 
         return redirect()->route('recipes.recipe', $review->recipe_id)
@@ -60,6 +70,10 @@ class ReviewController extends Controller
     public function destroy($recipeId, $id)
     {
         $review = Review::where('id', $id)->where('recipe_id', $recipeId)->firstOrFail();
+        if($review->user_id !== auth()->id()) {
+            return redirect()->route('recipes.recipe', $recipeId)
+                             ->with('error', 'You are not authorized to delete this review.');
+        }
         $review->delete();
     
         return redirect()->route('recipes.recipe', $recipeId)
