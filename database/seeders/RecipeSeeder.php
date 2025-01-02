@@ -31,7 +31,7 @@ class RecipeSeeder extends Seeder
             Storage::disk('public')->delete($imagePath);
         }
 
-        $imageUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+        $imageUrl = "https://i.imgur.com/WE2ihw5.png";
         $imageContent = file_get_contents($imageUrl);
 
         Storage::disk('public')->put($imagePath, $imageContent);
@@ -43,7 +43,7 @@ class RecipeSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
 
             $image = rand(0, 1) 
-            ? 'recipe_images/placeholder.svg'
+            ? 'recipe_images/placeholder.png'
             : null;
 
             $recipe = Recipe::create([

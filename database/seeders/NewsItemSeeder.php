@@ -24,10 +24,10 @@ class NewsItemSeeder extends Seeder
             Storage::disk('public')->delete($file);
         }
 
-        $placeholderImageUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+        $placeholderImageUrl = "https://i.imgur.com/WE2ihw5.png";
 
         $imageContent = file_get_contents($placeholderImageUrl);
-        $placeholderImagePath = $newsImagePath . '/placeholder.svg';
+        $placeholderImagePath = $newsImagePath . '/placeholder.png';
         Storage::disk('public')->put($placeholderImagePath, $imageContent);
 
         for ($i = 0; $i < 5; $i++) {

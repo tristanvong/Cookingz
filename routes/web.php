@@ -120,6 +120,17 @@ Route::prefix('contact')
 Route::prefix('admin')
     ->name('admin.')
     ->middleware('isAdmin')
+    ->controller(ContactController::class)
+    ->group(function () {
+        Route::get('/contact-forms', 'listContactForms')->name('contactForms.index');
+        Route::get('/contact-forms/{id}', 'showContactForm')->name('contactForms.show');
+        Route::post('/contact-forms/{id}/reply', 'replyToContactForm')->name('contactForms.reply');
+        Route::delete('/contact-forms/{id}', 'destroy')->name('contactForms.destroy');
+});
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('isAdmin')
     ->controller(AdminController::class)
     ->group(function () {
         Route::get('users', 'listAllUsers')->name('users.index'); 
