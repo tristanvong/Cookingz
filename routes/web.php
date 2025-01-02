@@ -7,6 +7,7 @@ use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsItemController;
+use App\Http\Controllers\ContactController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -105,6 +106,14 @@ Route::prefix('admin/news')
         Route::get('{newsItem}/edit', 'edit')->name('edit');
         Route::put('{newsItem}', 'update')->name('update');
         Route::delete('{newsItem}', 'destroy')->name('destroy');
+});
+
+Route::prefix('contact')
+    ->name('contact.')
+    ->controller(ContactController::class)
+    ->group(function () {
+        Route::get('/', 'showForm')->name('form');
+        Route::post('/', 'submitForm')->name('submit');
 });
 
 Route::prefix('user')
