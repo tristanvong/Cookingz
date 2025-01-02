@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\NewsItem;
+use Illuminate\Support\Facades\Storage;
 
 class NewsItemSeeder extends Seeder
 {
@@ -16,11 +17,26 @@ class NewsItemSeeder extends Seeder
     {
         $faker = Faker::create();
 
+        $newsImagePath = 'news_images';
+
+        $files = Storage::disk('public')->files($newsImagePath);
+        foreach ($files as $file) {
+            Storage::disk('public')->delete($file);
+        }
+
+        $placeholderImageUrl = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg";
+
+        $imageContent = file_get_contents($placeholderImageUrl);
+        $placeholderImagePath = $newsImagePath . '/placeholder.svg';
+        Storage::disk('public')->put($placeholderImagePath, $imageContent);
+
         for ($i = 0; $i < 5; $i++) {
+            $image = rand(0, 1) ? $placeholderImagePath : null;
+
             NewsItem::create([
                 'title' => $faker->sentence(),
                 'content' => $faker->paragraph(),
-                'image' => rand(0, 1) ? "https://upload.wikimedia.org/wikipedia/commons/3/3f/Placeholder_view_vector.svg" : null,
+                'image' => $image,
                 'published_at' => $faker->dateTimeBetween('-1 year', 'now'),
             ]);
         }

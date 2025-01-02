@@ -12,4 +12,8 @@ class NewsItem extends Model
         'image',
         'published_at',
     ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 }
