@@ -1,3 +1,9 @@
+<div class="mb-6">
+    <a href="{{ route('recipes.create') }}" class="inline-block py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700">
+        Create Recipe
+    </a>
+</div>
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     @foreach($recipes as $recipe)
         <div class="bg-white p-4 rounded-lg shadow-md flex flex-col">
