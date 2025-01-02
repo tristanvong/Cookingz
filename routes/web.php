@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -116,12 +116,17 @@ Route::prefix('contact')
         Route::post('/', 'submitForm')->name('submit');
 });
 
-Route::prefix('user')
-    ->name('user.')
+Route::prefix('admin')
+    ->name('admin.')
     ->middleware('isAdmin')
-    ->controller(UserController::class)
+    ->controller(AdminController::class)
     ->group(function () {
-        Route::delete('{id}', 'destroy')->name('destroy');
-        Route::post('make-admin/{id}', 'makeAdmin')->name('makeAdmin');
+        Route::get('users', 'listAllUsers')->name('users.index'); 
+        Route::get('users/create', 'create')->name('users.create'); 
+        Route::post('users', 'store')->name('users.store'); 
+        Route::post('users/make-admin/{id}', 'makeAdmin')->name('users.makeAdmin');
+        Route::post('users/revoke-admin/{id}', 'revokeAdmin')->name('users.revokeAdmin'); 
+        Route::delete('users/{id}', 'destroy')->name('users.destroy'); 
 });
+
 require __DIR__.'/auth.php';
