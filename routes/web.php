@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NewsItemController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -84,6 +85,26 @@ Route::prefix('faq')
         Route::get('{id}/edit', 'edit')->name('edit');
         Route::put('{id}', 'update')->name('update');
         Route::delete('{id}', 'destroy')->name('destroy');
+});
+
+Route::prefix('news')
+    ->name('news.')
+    ->controller(NewsItemController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{newsItem}', 'show')->name('show');
+});
+
+Route::prefix('admin/news')
+    ->name('admin.news.')
+    ->middleware('isAdmin')
+    ->controller(NewsItemController::class)
+    ->group(function () {
+        Route::get('create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('{newsItem}/edit', 'edit')->name('edit');
+        Route::put('{newsItem}', 'update')->name('update');
+        Route::delete('{newsItem}', 'destroy')->name('destroy');
 });
 
 Route::prefix('user')
