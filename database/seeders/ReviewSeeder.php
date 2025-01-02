@@ -21,13 +21,19 @@ class ReviewSeeder extends Seeder
         $users = User::all();
 
         foreach ($recipes as $recipe) {
-            for ($i = 0; $i < rand(1, 5); $i++) {
-                Review::create([
-                    'rating' => rand(1, 5),
-                    'comment' => $faker->sentence(),
-                    'user_id' => $users->random()->id,
-                    'recipe_id' => $recipe->id,
-                ]);
+            foreach ($users as $user) {
+                $existingReview = Review::where('user_id', $user->id)
+                    ->where('recipe_id', $recipe->id)
+                    ->first();
+
+                if (!$existingReview) {
+                    Review::create([
+                        'rating' => rand(1, 5),
+                        'comment' => $faker->sentence(),
+                        'user_id' => $user->id,
+                        'recipe_id' => $recipe->id,
+                    ]);
+                }
             }
         }
     }

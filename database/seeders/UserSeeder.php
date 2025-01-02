@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             Storage::disk('public')->delete($placeHolderImageAdmin);
         }
 
-        $imageUrl = "https://upload.wikimedia.org/wikipedia/commons/4/41/Profile-720.png";
+        $imageUrl = "https://i.imgur.com/ywWuOKK.png";
         $imageContent = file_get_contents($imageUrl);
         Storage::disk('public')->put($placeholderImage, $imageContent);
 

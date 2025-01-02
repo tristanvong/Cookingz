@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReviewController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -127,6 +128,16 @@ Route::prefix('admin')
         Route::post('users/make-admin/{id}', 'makeAdmin')->name('users.makeAdmin');
         Route::post('users/revoke-admin/{id}', 'revokeAdmin')->name('users.revokeAdmin'); 
         Route::delete('users/{id}', 'destroy')->name('users.destroy'); 
+});
+
+Route::name('reviews.')
+    ->middleware('auth')
+    ->controller(ReviewController::class)
+    ->group(function () {
+        Route::post('/recipes/{recipeId}/reviews', 'store')->name('store');
+        Route::get('/recipes/{recipeId}/reviews/{id}/edit', 'edit')->name('edit');
+        Route::put('/reviews/{id}', 'update')->name('update');
+        Route::delete('/recipes/{recipeId}/reviews/{id}', 'destroy')->name('destroy');
 });
 
 require __DIR__.'/auth.php';
