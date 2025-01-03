@@ -9,6 +9,7 @@ use App\Http\Controllers\NewsItemController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CommentController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -95,6 +96,14 @@ Route::prefix('news')
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{newsItem}', 'show')->name('show');
+});
+
+Route::name('comments.')
+    ->middleware('auth')
+    ->controller(CommentController::class)
+    ->group(function () {
+        Route::post('/news/{newsItem}/comments', 'store')->name('store');
+        Route::delete('/comments/{comment}', 'destroy')->name('destroy');
 });
 
 Route::prefix('admin/news')
