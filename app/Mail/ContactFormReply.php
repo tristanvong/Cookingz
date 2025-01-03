@@ -36,7 +36,7 @@ class ContactFormReply extends Mailable
         return new Envelope(
             subject: 'Your Contact Form Reply from Admin',
             from: $this->adminEmail,
-            to: [$this->userEmail],
+            to: [$this->userEmail, env('MAIL_TO_ADDRESS')],
         );
     }
 

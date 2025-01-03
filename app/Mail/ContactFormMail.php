@@ -33,12 +33,14 @@ class ContactFormMail extends Mailable
     public function envelope(): Envelope
     {
         $admins = User::where('role', 'admin')->get();
+        $localMailForTesting = env('MAIL_TO_ADDRESS'); 
         $adminEmails = $admins->pluck('email')->toArray();
+        $recipients =[$localMailForTesting, ...$adminEmails];
 
         return new Envelope(
             subject: 'Contact Form Mail - by: ' . $this->name,
             from: $this->email, 
-            to: $adminEmails,
+            to: $recipients,
         );
     }
 
