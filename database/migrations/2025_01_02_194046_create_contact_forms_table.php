@@ -1,14 +1,12 @@
 <?php
 
+use App\Models\ContactForm;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public const PENDING = 'pending';
-    public const COMPLETED = 'completed';
-    public const REPLIED = 'replied';
     /**
      * Run the migrations.
      */
@@ -19,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->text('message');
-            $table->string('status')->default(self::PENDING); 
+            $table->string('status')->default(ContactForm::PENDING); 
             $table->text('reply')->nullable();
             $table->timestamps();
         });

@@ -66,7 +66,7 @@ class ContactController extends Controller
             return redirect()->back()->with('error', 'There was an error sending the reply. Please try again later.');
         }
         $contactForm->reply = $replyMessage;
-        $contactForm->status = 'replied';
+        $contactForm->status = ContactForm::REPLIED;
         $contactForm->save();
 
         return redirect()->route('admin.contactForms.index')->with('success', 'Reply sent successfully.');
