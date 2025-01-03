@@ -110,6 +110,11 @@
                 $userReview = $recipe->reviews->where('user_id', Auth::id())->first();  
                 $otherReviews = $recipe->reviews->where('user_id', '!=', Auth::id()); 
             @endphp
+        @else
+            @php
+                $userReview = null;
+                $otherReviews = $recipe->reviews;
+            @endphp
         @endif
 
         <div class="space-y-6">
