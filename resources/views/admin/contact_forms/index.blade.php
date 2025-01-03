@@ -3,7 +3,9 @@
 @section('content')
 <div class="container mx-auto mt-8 mb-8 px-4 md:w-4/5 lg:w-3/4">
     <h1 class="text-3xl font-semibold text-white mb-6">Contact Forms</h1>
-
+    <x-error-message />
+    <x-success-message />
+    
     <div class="overflow-x-auto bg-white rounded-lg shadow-md">
         <table class="min-w-full table-auto">
             <thead class="bg-gray-100">

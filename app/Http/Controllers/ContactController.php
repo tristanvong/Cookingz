@@ -25,7 +25,7 @@ class ContactController extends Controller
         ]);
     
         try {
-            $contactForm = ContactForm::create($validated);
+            ContactForm::create($validated);
 
             $name = $validated['name'];
             $email = $validated['email'];
