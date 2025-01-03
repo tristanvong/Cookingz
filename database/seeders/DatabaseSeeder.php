@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             NewsItemSeeder::class,
             RecipeSeeder::class,
             ReviewSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

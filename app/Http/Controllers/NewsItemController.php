@@ -21,6 +21,7 @@ class NewsItemController extends Controller
 
     public function show(NewsItem $newsItem)
     {
+        $newsItem = NewsItem::with('comments.user')->findOrFail($newsItem->id);
         return view('news.show', compact('newsItem'));
     }
 
