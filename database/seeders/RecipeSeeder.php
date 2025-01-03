@@ -25,7 +25,7 @@ class RecipeSeeder extends Seeder
             Storage::disk('public')->delete($file);
         }
 
-        $imagePath = 'recipe_images/placeholder.svg';
+        $imagePath = 'recipe_images/placeholder.png';
         
         if (Storage::disk('public')->exists($imagePath)) {
             Storage::disk('public')->delete($imagePath);
