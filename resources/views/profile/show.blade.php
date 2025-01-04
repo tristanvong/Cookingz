@@ -49,8 +49,10 @@
                 @else
                     <div class="space-y-4">
                         @foreach ($publicMessages as $message)
-                            <div class="bg-gray-50 p-4 rounded-lg shadow-md">
-                                <p class="text-lg font-semibold text-gray-800">{{ $message->sender->name }}:</p>
+                            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                                 <a href="/p/{{$message->sender->id}}">
+                                    <p class="text-lg font-semibold text-amber-500 hover:underline"><span>@</span>{{ $message->sender->username }}</p>
+                                 </a>
                                 <p class="text-gray-700">{{ $message->content }}</p>
                                 <small class="text-gray-500">Sent at: {{ $message->created_at->format('Y-m-d H:i') }}</small>
                             </div>

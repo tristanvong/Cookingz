@@ -2,12 +2,18 @@
 @section('title', 'Private Messages')
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h2 class="text-3xl font-semibold text-white mb-6">
-        Private Messages with
-        <a href="{{ route('profile.show', $user->id) }}" class="text-amber-500 hover:underline">
-            <span>@</span>{{ $user->username }}
-        </a>
-    </h2>
+    @if (Auth::check() && Auth::user()->id === $user->id)
+        <h2 class="text-3xl font-semibold text-white mb-6">
+            Private Messages with yourself
+        </h2>
+    @else
+        <h2 class="text-3xl font-semibold text-white mb-6">
+            Private Messages with
+            <a href="{{ route('profile.show', $user->id) }}" class="text-amber-500 hover:underline">
+                <span>@</span>{{ $user->username }}
+            </a>
+        </h2>
+    @endif
     <div class="space-y-4 mb-6">
         @foreach ($messages as $message)
             @if ($message->type === 'private')
