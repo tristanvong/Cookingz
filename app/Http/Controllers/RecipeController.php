@@ -52,13 +52,22 @@ class RecipeController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $recipes = Recipe::with('user', 'reviews')->get();
-        $users = User::all();
-        return view('recipes.listAllRecipes', compact('recipes', 'users'));
-    }
+        $query = Recipe::query();
 
+        if ($request->has('food_types') && is_array($request->food_types)) {
+            $query->whereHas('foodTypes', function($query) use ($request) {
+                $query->whereIn('food_types.id', $request->food_types);
+            });
+        }
+
+        $recipes = $query->get();
+        $foodTypes = FoodType::all();
+
+        return view('recipes.listAllRecipes', compact('recipes', 'foodTypes'));
+    }
+    
     public function show($id)
     {
         $recipe = Recipe::with('user', 'reviews', 'foodTypes')->findOrFail($id);
