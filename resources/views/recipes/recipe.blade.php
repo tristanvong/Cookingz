@@ -35,12 +35,39 @@
                     <p class="text-gray-600">No ratings yet.</p>
                 @endif
             </div>
+            
             <div class="mt-6 grid grid-cols-2 gap-4 text-gray-700">
-                <p><strong>By:</strong> {{ $recipe->user->name }}</p>
+                <p><strong>By:</strong> <a href="/p/{{$recipe->user->id}}" class="hover:underline text-amber-500"><span>@</span>{{ $recipe->user->username }}</a></p>
                 <p><strong>Country:</strong> {{ $recipe->country }}</p>
                 <p><strong>Preparation Time:</strong> {{ $recipe->preparation_time }} minutes</p>
                 <p><strong>Category:</strong> {{ $recipe->category->name ?? 'Uncategorized' }}</p>
-                <p><strong>Instructions:</strong> {{ $recipe->instructions }} </p>
+                <div class="col-span-2"><p><strong>Instructions:</strong> {{ $recipe->instructions }} </p></div>
+
+
+                <div class="col-span-2">
+                <p><strong>Food Types:</strong>
+                    @if ($recipe->foodTypes->isNotEmpty())
+                        <span class="inline-block ml-2">
+                            @foreach ($recipe->foodTypes as $foodType)
+                                <div class="mt-2">
+                                    <span class="bg-gray-200 text-gray-800 text-sm font-medium px-2 py-1 rounded-lg mr-2 cursor-pointer hover:bg-gray-300">
+                                        {{ $foodType->name }}
+                                    </span>
+                                    <div class="text-sm text-gray-600 mt-1">
+                                        {{ $foodType->description ?? 'No additional information available.' }}
+                                    </div>
+                                </div>
+                            @endforeach
+                        </span>
+                    @else
+                        <span class="text-gray-600">No food types available.</span>
+                    @endif
+                </p>
+            </div>
+
+
+
+
             </div>
         </div>
     </div>
@@ -121,7 +148,7 @@
             @if($userReview)
                 <div class="border-b border-gray-300 pb-4">
                     <p class="text-gray-800 font-semibold">
-                        {{ $userReview->user->name }} 
+                        <a href="/p/{{$userReview->user->id}}" class="hover:underline text-amber-500"><span>@</span>{{ $userReview->user->username }}</a> 
                         @include('components.star-rating', ['rating' => $userReview->rating])
                         @if($userReview->created_at != $userReview->updated_at)
                             <span class="text-sm text-gray-500">(edited)</span>
@@ -143,7 +170,7 @@
             @foreach($otherReviews as $review)
                 <div class="border-b border-gray-300 pb-4">
                     <p class="text-gray-800 font-semibold">
-                        {{ $review->user->name }} 
+                        <a href="/p/{{$review->user->id}}" class="hover:underline text-amber-500"><span>@</span>{{ $review->user->username }} </a>
                         @include('components.star-rating', ['rating' => $review->rating])
                         @if($review->created_at != $review->updated_at)
                             <span class="text-sm text-gray-500">(edited)</span>
