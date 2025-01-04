@@ -47,6 +47,9 @@ class ProfileUpdateRequest extends FormRequest
                 'mimes:jpeg,png,jpg,svg',
                 'max:2048',
             ],
+            'privacy_mode' => [
+                'boolean',
+            ],
         ];
     }
 

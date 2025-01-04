@@ -12,6 +12,18 @@
                 </div>
             @endif
 
+            <div class="mt-4">
+                <label for="privacy_mode" class="block text-gray-700 font-bold mb-2">Privacy Mode</label>
+                <div class="flex items-center">
+                    <input type="checkbox" id="privacy_mode" name="privacy_mode" value="1" 
+                        {{ old('privacy_mode', $user->privacy_mode) ? 'checked' : '' }} 
+                        class="h-4 w-4 border-gray-300 text-amber-500 rounded focus:ring-amber-500">
+                    <span class="ml-2 text-sm text-gray-700">Enable privacy mode</span>
+                </div>
+                @error('privacy_mode')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>

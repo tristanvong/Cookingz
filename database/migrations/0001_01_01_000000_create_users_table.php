@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->text('about_me')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->boolean('privacy_mode')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

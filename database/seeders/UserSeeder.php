@@ -59,6 +59,7 @@ class UserSeeder extends Seeder
                 'date_of_birth' => $faker->dateTimeBetween('-60 years', '-13 years'),
                 'about_me' => $faker->paragraph(),
                 'profile_picture' => $placeholderImage,
+                'privacy_mode' => $faker->boolean(),
             ]);
         }
 
@@ -71,6 +72,7 @@ class UserSeeder extends Seeder
             'date_of_birth' => $faker->dateTimeBetween('-60 years', '-18 years'),
             'about_me' => 'Hello, I am the admin of Cookingz. I am here to help you with any questions you might have.',
             'profile_picture' => $placeHolderImageAdmin,
+            'privacy_mode' => $faker->boolean(),
         ]);
     }
 }

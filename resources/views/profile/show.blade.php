@@ -10,8 +10,12 @@
                     @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => true])
                 @endif
                 
+                @if(!$user->privacy_mode)
                 <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
-                
+                @elseif(Auth::id() === $user->id)
+                <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
+                <small>(viewing own profile full name not shown for other user= privacy mode is enabled)</small><br>
+                @endif
                 <p class="text-gray-600 text-xl inline-flex">
                     <span>@</span>
                     <span>{{ $user->username }}</span>
@@ -23,14 +27,29 @@
                 <p class="text-gray-800">{{ $user->about_me ?? 'This user has not shared anything about themselves.' }}</p>
             </div>
 
-            <div class="mt-6">
-                <h2 class="text-xl font-semibold text-gray-700 mb-2">Personal Information</h2>
-                <ul class="text-gray-800">
-                    <li><strong>Email:</strong> {{ $user->email }}</li>
-                    <li><strong>Date of Birth:</strong> {{ $user->date_of_birth ? $user->date_of_birth->format('F j, Y') : 'N/A' }}</li>
-                    <li><strong>Role:</strong> {{ ucfirst($user->role) }}</li>
-                </ul>
-            </div>
+            @if ($user->privacy_mode)
+                 @if (Auth::id() === $user->id)
+                    <div class="mt-6">
+                        <h2 class="text-xl font-semibold text-gray-700 mb-2">Personal Information <small>(viewing own profile, privacy mode is enabled (name, and personal information not shown for other users))</small></h2>
+                        <ul class="text-gray-800">
+                            <li><strong>Email:</strong> {{ $user->email }}</li>
+                            <li><strong>Date of Birth:</strong> {{ $user->date_of_birth ? $user->date_of_birth->format('F j, Y') : 'N/A' }}</li>
+                            <li><strong>Role:</strong> {{ ucfirst($user->role) }}</li>
+                        </ul>
+                    </div>
+                @else
+                <p class="mt-6 text-gray-600 text-lg">Privacy mode is enabled. Only the username and profile picture are shown.</p>
+                @endif
+            @else
+                <div class="mt-6">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-2">Personal Information</h2>
+                    <ul class="text-gray-800">
+                        <li><strong>Email:</strong> {{ $user->email }}</li>
+                        <li><strong>Date of Birth:</strong> {{ $user->date_of_birth ? $user->date_of_birth->format('F j, Y') : 'N/A' }}</li>
+                        <li><strong>Role:</strong> {{ ucfirst($user->role) }}</li>
+                    </ul>
+                </div>
+            @endif
 
             @if (Auth::check() && Auth::user()->id == $user->id)
                 <div class="mt-4">
