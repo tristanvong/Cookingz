@@ -83,6 +83,8 @@ class ProfileController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('profile.show', compact('user'));
+        $publicMessages = $user->publicMessages()->orderBy('created_at', 'desc')->get();
+    
+        return view('profile.show', compact('user', 'publicMessages'));
     }
 }

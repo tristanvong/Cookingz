@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Recipe;
 use App\Models\Review;
+use App\Models\Message;
 
 class User extends Authenticatable
 {
@@ -64,5 +65,26 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function publicMessages()
+    {
+        return $this->sentMessages()->where('type', 'public')
+                                ->orWhere('receiver_id', $this->id)
+                                ->where('type', 'public');
+    }
+
+    public function messages()
+    {
+        return $this->sentMessages()->orWhere('receiver_id', $this->id);
     }
 }
