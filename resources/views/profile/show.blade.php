@@ -40,6 +40,78 @@
                     </a>
                 </div>
             @endif
+
+            <div class="container mt-6">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Public Messages</h2>
+
+                @if ($publicMessages->isEmpty())
+                    <p class="text-gray-600">No public messages to display.</p>
+                @else
+                    <div class="space-y-4">
+                        @foreach ($publicMessages as $message)
+                            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                                 <a href="/p/{{$message->sender->id}}">
+                                    <p class="text-lg font-semibold text-amber-500 hover:underline"><span>@</span>{{ $message->sender->username }}</p>
+                                 </a>
+                                <p class="text-gray-700">{{ $message->content }}</p>
+                                <small class="text-gray-500">Sent at: {{ $message->created_at->format('Y-m-d H:i') }}</small>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+
+                <form action="{{ route('messages.storePublic', $user->id) }}" method="POST" class="mt-6" id="messageForm">
+                    @csrf
+                    <textarea name="content" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 " required placeholder="Write your public message..."></textarea>
+                    <button type="submit" class="mt-3 px-6 py-2 bg-amber-500 text-white rounded-lg shadow-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Post Message</button>
+                </form>
+
+                <div class="mt-6">
+                    <a href="{{ route('messages.private', $user->id) }}" 
+                        class="inline-block px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Send Private Message
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+    <button 
+    id="scrollToggleButton" 
+    class="fixed bottom-16 right-8 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+    Go to Bottom to Send Message
+    </button>
+</div>
+
+<script>
+    const scrollToggleButton = document.getElementById('scrollToggleButton');
+    const messageForm = document.getElementById('messageForm');
+
+    const scrollToBottom = () => {
+        messageForm.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+        if (scrolled > pageHeight * 0.1) {
+            scrollToggleButton.textContent = 'Go Back to Top';
+            scrollToggleButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+            scrollToggleButton.classList.add('bg-amber-500', 'hover:bg-amber-600');
+            scrollToggleButton.onclick = scrollToTop;
+        } else {
+            scrollToggleButton.textContent = 'Go to Bottom to Send Message';
+            scrollToggleButton.classList.remove('bg-amber-500', 'hover:bg-amber-600');
+            scrollToggleButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            scrollToggleButton.onclick = scrollToBottom;
+        }
+    });
+
+    scrollToggleButton.onclick = scrollToBottom;
+</script>
+
 @endsection

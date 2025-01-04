@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -26,6 +27,18 @@ Route::prefix('p')
     ->controller(ProfileController::class)
     ->group(function () {
         Route::get('/{id}', 'show')->name('show');
+});
+
+Route::prefix('messages')
+    ->name('messages.')
+    ->middleware('auth')
+    ->controller(MessageController::class)
+    ->group(function () {
+        Route::get('/conversations', 'conversations')->name('conversations');
+        Route::get('/private/{user}', 'privateMessages')->name('private');
+        Route::post('/private/{user}', 'storePrivate')->name('storePrivate');
+        Route::get('/public/{user}', 'publicMessages')->name('public');
+        Route::post('/public/{user}', 'storePublic')->name('storePublic');
 });
 
 // this stuff will be overwritten so will keep it for now
