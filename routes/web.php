@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\FAQProposalController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -89,6 +90,16 @@ Route::prefix('faqs')
     ->group(function() {
         Route::get('/', 'index')->name('index');
         Route::get('/category/{id}', 'showCategory')->name('category');
+});
+
+Route::prefix('faq-proposals')
+    ->name('faq-proposals.')
+    ->middleware('auth')
+    ->controller(FAQProposalController::class)
+    ->group(function () {
+        Route::get('create', 'create')->name('create');  
+        Route::post('create', 'store')->name('store');  
+        Route::get('/', 'index')->name('index');
 });
 
 Route::prefix('faq')
