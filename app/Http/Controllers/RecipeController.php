@@ -7,6 +7,7 @@ use App\Models\Recipe;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\FoodType;
 
 class RecipeController extends Controller
 {
@@ -60,16 +61,16 @@ class RecipeController extends Controller
 
     public function show($id)
     {
-        $recipe = Recipe::with('user', 'reviews')->findOrFail($id);
+        $recipe = Recipe::with('user', 'reviews', 'foodTypes')->findOrFail($id);
         return view('recipes.recipe', compact('recipe'));
     }
 
     public function create()
     {
-
         $countriesByRegion = $this->getCountriesByRegion();
         $categories = Category::recipeCategories()->get();
-        return view('recipes.create', compact('categories', 'countriesByRegion'));
+        $foodTypes = FoodType::all();
+        return view('recipes.create', compact('categories', 'countriesByRegion', 'foodTypes'));
     }
 
     public function store(Request $request)
@@ -84,15 +85,17 @@ class RecipeController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'country' => 'required|string|max:255',
             'preparation_time' => 'required|integer',
+            'food_types' => 'nullable|array', 
+            'food_types.*' => 'exists:food_types,id', 
         ]);
 
         $imagePath = null;
 
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('recipe_images', 'public');
         }
 
-        Recipe::create([
+        $recipe = Recipe::create([
             'title' => $request->title,
             'ingredients' => json_encode($request->ingredients),
             'instructions' => $request->instructions,
@@ -103,6 +106,10 @@ class RecipeController extends Controller
             'country' => $request->country,
             'preparation_time' => $request->preparation_time,
         ]);
+
+        if ($request->has('food_types')) {
+            $recipe->foodTypes()->sync($request->food_types); 
+        }
 
         return redirect()->route('recipes.user');
     }
@@ -116,8 +123,9 @@ class RecipeController extends Controller
 
         $categories = Category::recipeCategories()->get();
         $countriesByRegion = $this->getCountriesByRegion();
+        $foodTypes = FoodType::all();
 
-        return view('recipes.edit', compact('recipe', 'categories', 'countriesByRegion'));
+        return view('recipes.edit', compact('recipe', 'categories', 'countriesByRegion', 'foodTypes'));
     }
 
     public function update(Request $request, $id)
@@ -137,6 +145,8 @@ class RecipeController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'country' => 'required|string|max:255',
             'preparation_time' => 'required|integer',
+            'food_types' => 'nullable|array',
+            'food_types.*' => 'exists:food_types,id',
         ]);
 
         $imagePath = $recipe->image;
@@ -155,6 +165,10 @@ class RecipeController extends Controller
             'country' => $request->country,
             'preparation_time' => $request->preparation_time,
         ]);
+
+        if ($request->has('food_types')) {
+            $recipe->foodTypes()->sync($request->food_types);
+        }
 
         return redirect()->route('recipes.user');
     }

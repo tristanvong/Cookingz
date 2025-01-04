@@ -2,14 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Models\Recipe;
 use App\Models\User;
 use App\Models\Category;
-use App\Models\Review;
-use Illuminate\Support\Facades\Storage;
+use App\Models\FoodType;
 
 class RecipeSeeder extends Seeder
 {
@@ -18,33 +16,29 @@ class RecipeSeeder extends Seeder
      */
     public function run(): void
     {
-        $recipeImagesPath = 'recipe_images';
-
-        $files = Storage::disk('public')->files($recipeImagesPath);
-        foreach ($files as $file) {
-            Storage::disk('public')->delete($file);
-        }
-
-        $imagePath = 'recipe_images/placeholder.png';
-        
-        if (Storage::disk('public')->exists($imagePath)) {
-            Storage::disk('public')->delete($imagePath);
-        }
-
-        $imageUrl = "https://i.imgur.com/WE2ihw5.png";
-        $imageContent = file_get_contents($imageUrl);
-
-        Storage::disk('public')->put($imagePath, $imageContent);
-
         $faker = Faker::create();
         $users = User::all();
         $categories = Category::all();
 
-        for ($i = 0; $i < 20; $i++) {
+        $halal = FoodType::firstOrCreate([
+            'name' => 'Halal',
+            'description' => 'Halal food refers to items that are permissible under Islamic law. It excludes pork, alcohol, and any ingredients or practices that violate religious guidelines. Halal food is prepared following specific methods that ensure it is clean and ethically sourced.',
+        ]);
 
-            $image = rand(0, 1) 
-            ? 'recipe_images/placeholder.png'
-            : null;
+        $vegan = FoodType::firstOrCreate([
+            'name' => 'Vegan',
+            'description' => 'Excludes all animal products, including meat, dairy, and eggs.',
+        ]);
+
+        $vegetarian = FoodType::firstOrCreate([
+            'name' => 'Vegetarian',
+            'description' => 'Excludes meat but may include dairy and eggs.',
+        ]);
+
+        for ($i = 0; $i < 20; $i++) {
+            $image = rand(0, 1)
+                ? 'recipe_images/placeholder.png'
+                : null;
 
             $recipe = Recipe::create([
                 'title' => $faker->sentence(),
@@ -57,6 +51,22 @@ class RecipeSeeder extends Seeder
                 'country' => $faker->country(),
                 'preparation_time' => rand(15, 120),
             ]);
+
+            $foodTypes = [];
+
+            if (rand(0, 1)) {
+                $foodTypes[] = $halal->id;
+            }
+            if (rand(0, 1)) {
+                $foodTypes[] = $vegan->id;
+            }
+            if (rand(0, 1)) {
+                $foodTypes[] = $vegetarian->id;  
+            }
+
+            if (!empty($foodTypes)) {
+                $recipe->foodTypes()->attach($foodTypes);
+            }
         }
     }
 }

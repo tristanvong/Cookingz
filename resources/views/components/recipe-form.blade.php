@@ -65,6 +65,23 @@
         @enderror
     </div>
 
+    <label class="block text-sm font-medium text-gray-700">Food Types</label>
+    <div class="space-y-2 mt-2">
+        @foreach($foodTypes as $foodType)
+            <label class="flex items-start space-x-2">
+                <input type="checkbox" name="food_types[]" value="{{ $foodType->id }}"
+                    @if(isset($recipe) && in_array($foodType->id, old('food_types', $recipe->foodTypes->pluck('id')->toArray())))
+                        checked
+                    @endif
+                    class="form-checkbox text-amber-600 focus:ring-amber-500"
+                >
+                
+                <span class="font-medium text-gray-800">{{ $foodType->name }}</span>
+                <span class="text-sm text-gray-500 ml-2 bg-gray-100 rounded">{{ $foodType->description }}</span>
+            </label>
+        @endforeach
+    </div>
+
     <div>
         <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
         <select id="category_id" name="category_id" class="block w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
