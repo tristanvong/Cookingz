@@ -14,9 +14,12 @@
     <div class="mb-6 bg-white p-4 rounded-lg shadow-md w-fit">
         @forelse ($proposals as $proposal)
             <div class="mb-4 flex flex-col space-y-2 border-b pb-4">
-                <div class="text-lg font-semibold text-gray-800">Proposal Question: {{ $proposal->question }}</div>
-                <div class="text-md text-gray-600">Proposal Answer: {{ $proposal->answer }}</div>
+                <div class="text-lg font-bold text-gray-800">Proposal ID: {{ $proposal->id }}</div>
+                <div class=" text-gray-800">Proposal Question: {{ $proposal->question }}</div>
+                <div class=" text-gray-800">Proposal Answer: {{ $proposal->answer }}</div>
                 <p class="text-sm text-gray-600">Status: <span class="font-medium">{{ ucfirst($proposal->status) }}</span></p>
+                <p class="text-sm text-gray-500">Created at: <span class="font-medium">{{$proposal->created_at }}</span></p>
+
             </div>
         @empty
             <p class="text-center text-gray-600">You haven't submitted any FAQ proposals yet.</p>
