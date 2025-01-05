@@ -16,15 +16,17 @@ class FAQProposalController extends Controller
     {
         $request->validate([
             'question' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
         ]);
 
         FAQProposal::create([
             'user_id' => auth()->id(),
             'question' => $request->input('question'),
+            'answer' => $request->input('answer'),
             'status' => 'pending', 
         ]);
 
-        return redirect()->route('faqs.index')->with('status', 'Your FAQ proposal has been submitted and is awaiting review.');
+        return redirect()->route('faq-proposals.index')->with('status', 'Your FAQ proposal has been submitted and is awaiting review.');
     }
 
     public function index()

@@ -15,5 +15,10 @@
             </div>
         @endforeach
     </div>
+    @auth
+        <div class="mt-6">
+            <a href="/faq-proposals" class="inline-block py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Go to FAQ Proposals</a>
+        </div>
+    @endauth
 </div>
 @endsection

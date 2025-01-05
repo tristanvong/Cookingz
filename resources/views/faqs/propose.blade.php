@@ -2,7 +2,7 @@
 @section('title', 'Propose a new FAQ')
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-gray-800 mb-4">Propose an FAQ</h1>
+    <h1 class="text-4xl font-bold text-white mb-4">Propose an FAQ</h1>
 
     <div class="bg-gray-100 p-6 rounded-lg shadow-md">
         <form method="POST" action="{{ route('faq-proposals.store') }}">
