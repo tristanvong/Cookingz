@@ -8,6 +8,7 @@ use App\Models\Recipe;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\FoodType;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeSeeder extends Seeder
 {
@@ -19,6 +20,19 @@ class RecipeSeeder extends Seeder
         $faker = Faker::create();
         $users = User::all();
         $categories = Category::all();
+
+        $recipeImagesPath = 'recipe_images';
+
+        $files = Storage::disk('public')->files($recipeImagesPath);
+        foreach ($files as $file) {
+            Storage::disk('public')->delete($file);
+        }
+
+        $placeholderImageUrl = "https://i.imgur.com/WE2ihw5.png";
+
+        $imageContent = file_get_contents($placeholderImageUrl);
+        $placeholderImagePath = $recipeImagesPath . '/placeholder.png';
+        Storage::disk('public')->put($placeholderImagePath, $imageContent);
 
         $halal = FoodType::firstOrCreate([
             'name' => 'Halal',
