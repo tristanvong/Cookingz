@@ -26,6 +26,24 @@
                 @error('answer')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <div class="mb-4">
+                <label for="category_id" class="block text-gray-700 font-bold mb-2">Category</label>
+                <select name="category_id" id="category_id" 
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
+                    <option value="">Select a category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" 
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="mt-6">
                 <button type="submit" 

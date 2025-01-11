@@ -99,7 +99,17 @@ Route::prefix('faq-proposals')
     ->group(function () {
         Route::get('create', 'create')->name('create');  
         Route::post('create', 'store')->name('store');  
-        Route::get('/', 'index')->name('index');
+        Route::get('/', 'showOwnProposals')->name('index');
+        Route::get('/{id}', 'showProposalByUserId')->name('showProposalByUserId');
+});
+
+Route::prefix('faq-proposals')
+    ->name('faq-proposals.')
+    ->middleware('isAdmin')
+    ->controller(FAQProposalController::class)
+    ->group(function () {
+        Route::post('{id}/approve', 'approve')->name('approve');
+        Route::post('{id}/reject', 'reject')->name('reject');
 });
 
 Route::prefix('faq')

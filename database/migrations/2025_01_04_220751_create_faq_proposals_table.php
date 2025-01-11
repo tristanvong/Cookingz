@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('question');
             $table->text('answer')->nullable();
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

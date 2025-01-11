@@ -17,9 +17,9 @@
                 <div class="text-lg font-bold text-gray-800">Proposal ID: {{ $proposal->id }}</div>
                 <div class=" text-gray-800">Proposal Question: {{ $proposal->question }}</div>
                 <div class=" text-gray-800">Proposal Answer: {{ $proposal->answer }}</div>
-                <p class="text-sm text-gray-600">Status: <span class="font-medium">{{ ucfirst($proposal->status) }}</span></p>
+                <p class="text-sm text-gray-600">Status: <span class="font-bold">{{ ucfirst($proposal->status) }}</span></p>
+                <p class="text-sm text-gray-500">Category: <span class="font-medium">{{ $proposal->category ? $proposal->category->name : 'Uncategorized' }}</span></p>
                 <p class="text-sm text-gray-500">Created at: <span class="font-medium">{{$proposal->created_at }}</span></p>
-
             </div>
         @empty
             <p class="text-center text-gray-600">You haven't submitted any FAQ proposals yet.</p>

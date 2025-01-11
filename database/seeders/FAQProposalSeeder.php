@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\FAQProposal;
 use Faker\Factory as Faker;
+use App\Models\Category;
 
 class FAQProposalSeeder extends Seeder
 {
@@ -13,6 +14,19 @@ class FAQProposalSeeder extends Seeder
     {
         $faker = Faker::create();
         $users = User::all();
+        $categories = Category::where('type', 'faq')->get();
+
+        foreach ($categories as $category) {
+            $randomUser = $users->random();
+
+            FAQProposal::create([
+                'user_id' => $randomUser->id,
+                'question' => $faker->sentence,
+                'answer' => $faker->paragraph,
+                'status' => 'pending',
+                'category_id' => $category->id,
+            ]);
+        }
 
         foreach ($users as $user) {
             $numberOfProposals = rand(0, 4);
@@ -23,6 +37,7 @@ class FAQProposalSeeder extends Seeder
                     'question' => $faker->sentence,
                     'answer' => $faker->paragraph,
                     'status' => 'pending',
+                    'category_id' => $categories->random()->id,
                 ]);
             }
         }
