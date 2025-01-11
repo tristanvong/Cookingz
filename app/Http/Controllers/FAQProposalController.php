@@ -32,7 +32,7 @@ class FAQProposalController extends Controller
             'category_id' => $request->input('category_id'),
         ]);
 
-        return redirect()->route('faq-proposals.index')->with('status', 'Your FAQ proposal has been submitted and is awaiting review.');
+        return redirect()->route('faq-proposals.index')->with('success', 'Your FAQ proposal has been submitted and is awaiting review.');
     }
 
     public function showOwnProposals()

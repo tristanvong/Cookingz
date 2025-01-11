@@ -12,6 +12,8 @@
     </div>
 
     <div class="mb-6 bg-white p-4 rounded-lg shadow-md w-fit">
+    <x-success-message />
+    <x-error-message />
         @forelse ($proposals as $proposal)
             <div class="mb-4 flex flex-col space-y-2 border-b pb-4">
                 <div class="text-lg font-bold text-gray-800">Proposal ID: {{ $proposal->id }}</div>
