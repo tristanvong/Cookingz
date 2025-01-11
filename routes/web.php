@@ -182,6 +182,9 @@ Route::prefix('admin')
         Route::post('users/make-admin/{id}', 'makeAdmin')->name('users.makeAdmin');
         Route::post('users/revoke-admin/{id}', 'revokeAdmin')->name('users.revokeAdmin'); 
         Route::delete('users/{id}', 'destroy')->name('users.destroy'); 
+
+        Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('list-all', 'listAll')->name('listAll');
 });
 
 Route::name('reviews.')
