@@ -37,7 +37,8 @@ class AuthenticatedSessionController extends Controller
             ->first();
         
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
+            Auth::login($user, $request->has('remember'));
+    
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard', absolute: false));
         }
