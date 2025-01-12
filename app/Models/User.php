@@ -88,4 +88,9 @@ class User extends Authenticatable
     {
         return $this->sentMessages()->orWhere('receiver_id', $this->id);
     }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\CustomEmailVerificationNotification());
+    }
 }
