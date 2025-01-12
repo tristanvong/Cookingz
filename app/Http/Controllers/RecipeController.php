@@ -126,7 +126,7 @@ class RecipeController extends Controller
     public function edit($id)
     {
         $recipe = Recipe::findOrFail($id);
-        if ($recipe->user_id !== Auth::id()) {
+        if ($recipe->user_id !== Auth::id() && Auth::user()->role == User::USER) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -140,7 +140,7 @@ class RecipeController extends Controller
     public function update(Request $request, $id)
     {
         $recipe = Recipe::findOrFail($id);
-        if ($recipe->user_id !== Auth::id()) {
+        if ($recipe->user_id !== Auth::id() && Auth::user()->role == User::USER) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -185,14 +185,15 @@ class RecipeController extends Controller
     public function listUserRecipes()
     {
         $recipes = Recipe::where('user_id', Auth::id())->with('category')->get();
-        return view('recipes.myRecipesList', compact('recipes'));
+        $foodTypes = FoodType::all();
+        return view('recipes.myRecipesList', compact('recipes', 'foodTypes'));
     }
 
     public function destroy($id)
     {
         $recipe = Recipe::findOrFail($id);
 
-        if (Auth::id() !== $recipe->user_id) {
+        if (Auth::id() !== $recipe->user_id && Auth::user()->role == User::USER) {
             abort(403, 'Unauthorized action.');
         }
 

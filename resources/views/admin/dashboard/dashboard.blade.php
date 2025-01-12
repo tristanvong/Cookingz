@@ -45,6 +45,24 @@
                 List All
             </button>
         </form>
+
+        @if ($model == 'Category')
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/categories/create">Create Category</a>
+        @elseif ($model == 'ContactForm')
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/contact-forms">View Contact Forms</a>
+        @elseif ($model == 'FAQItem')
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/faq/create">Create FAQ Item</a>
+        @elseif ($model == 'FAQProposal')
+        <!-- No need to create FAQProposal this is here for readability -->
+        @elseif ($model == 'FoodType')
+        <!-- I need to make a controller and route for creating FoodType I haven't done this yet -->
+        @elseif ($model == 'NewsItem')
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/news/create">Create FAQ Item</a>
+        @elseif ($model == 'Recipe')
+        <!-- No need to create a Recipe this is just for readability -->
+        @elseif ($model == 'User')
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/users/create">Create User</a>
+        @endif
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -112,7 +130,7 @@
                     <p class="text-gray-600"><span class="font-bold">Instructions: </span>{{ $item->instructions }}</p>
 
                     <p class="text-gray-600"><span class="font-bold">Food Types: </span>
-                        <ul class="list-disc pl-6 text-gray-700">
+                        <ul class="list-disc pl-6 text-gray-700 mb-4">
                             @forelse($item->foodTypes as $foodType)
                                 <li>{{ $foodType->name }}</li>
                             @empty
@@ -120,6 +138,20 @@
                             @endforelse
                         </ul>
                     </p>
+
+                    <div class="flex gap-4">
+                        <form action="{{ route('recipes.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this recipe?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Delete Recipe</button>
+                        </form>
+    
+                        <form action="{{ route('recipes.edit', $item->id) }}" method="GET" onsubmit="return confirm('Are you sure you want to edit this recipe?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Edit Recipe</button>
+                        </form>
+                    </div>
+
                 @elseif ($model === 'User')
                     @if ($item->profile_picture && file_exists(storage_path('app/public/' . $item->profile_picture)))
                         @include('components.profile-picture', ['user' => $item, 'noProfilePicture' => false])
@@ -141,7 +173,7 @@
                     <p class="text-gray-600"><span class="font-bold">Description: </span>{{ $item->description }}</p>
                     <p class="text-sm text-gray-500"><span class="font-bold">Type: </span>{{ $item->type }}</p>
                 @endif
-                    <p class="text-sm text-gray-500"><span class="font-bold">ID: </span>{{ $item->id }}</p>
+                    <p class="text-sm text-gray-500 mt-4"><span class="font-bold">ID: </span>{{ $item->id }}</p>
             </div>
         @empty
             <p class="text-center col-span-full text-white">No results found.</p>
