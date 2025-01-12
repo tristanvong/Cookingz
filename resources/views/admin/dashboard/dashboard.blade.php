@@ -21,6 +21,7 @@
     <div class="flex space-x-4 mb-6">
         <form method="GET" action="{{ route('admin.dashboard') }}">
             <input type="hidden" name="model" value="{{ $model }}">
+            @if ($model == 'Category')
             <input
                 type="text"
                 name="search"
@@ -28,6 +29,63 @@
                 placeholder="Search by name or ID"
                 class="py-2 px-4 border rounded-lg"
             >
+            @elseif ($model == 'ContactForm')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by name, email or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'FAQItem')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by question or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'FAQProposal')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by question or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'FoodType')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by name or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'NewsItem')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by title or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'Recipe')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by title or ID"
+                class="py-2 px-4 border rounded-lg"
+            >
+            @elseif ($model == 'User')
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search by username, email or ID"
+                class="py-2 px-4 border rounded-lg w-64"
+            >
+            @endif
             <button
                 type="submit"
                 class="py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
@@ -80,7 +138,7 @@
                     <p class="text-gray-600"><span class="font-bold">Status: </span>{{ $item->status }}</p>
                     <p class="text-gray-600"><span class="font-bold">Category: </span>{{ $item->category->name ?? 'No category assigned or something went wrong when loading' }}</p>
                     <p class="text-gray-600"><span class="font-bold">Proposed by: </span>
-                    <a href="/p/{{$item->user->id}}" class="text-amber-500 hover:text-amber-600 hover:underline"><span>@</span>{{ $item->user->name ?? 'No category assigned or something went wrong when loading' }}</a>
+                    <a href="/p/{{$item->user->id}}" class="text-amber-500 hover:text-amber-600 hover:underline"><span>@</span>{{ $item->user->username ?? 'No category assigned or something went wrong when loading' }}</a>
                     </p>
                 @elseif ($model === 'FAQItem')
                     <p class="text-gray-600"><span class="font-bold">Question: </span>{{ $item->question }}</p>

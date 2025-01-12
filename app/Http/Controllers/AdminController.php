@@ -99,13 +99,47 @@ class AdminController extends Controller
         $model = $request->get('model', 'Category');
         $query = $this->getModelQuery($model);
 
-        // TODO: fix search for all models (some dont have name etc)
         if ($request->has('search') && $request->search) {
             $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('id', $search);
-            });
+            if ($model == 'Category') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'ContactForm') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('id', $search);
+                });
+            }elseif ($model == 'FAQItem' || $model == 'FAQProposal') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('question', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'FoodType') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }
+            elseif ($model == 'NewsItem') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'Recipe') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'User') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('username', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('id', $search);
+                });
+            }
         }
 
         $results = $query->get();
