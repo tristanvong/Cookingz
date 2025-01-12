@@ -113,13 +113,14 @@
         @elseif ($model == 'FAQProposal')
         <!-- No need to create FAQProposal this is here for readability -->
         @elseif ($model == 'FoodType')
-        <!-- I need to make a controller and route for creating FoodType I haven't done this yet -->
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="{{route('foodtypes.create')}}">Create Food Type</a>
         @elseif ($model == 'NewsItem')
         <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/news/create">Create FAQ Item</a>
         @elseif ($model == 'Recipe')
         <!-- No need to create a Recipe this is just for readability -->
         @elseif ($model == 'User')
         <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/users/create">Create User</a>
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="{{route('admin.users.index')}}">Go to User index</a>
         @endif
     </div>
 
@@ -184,7 +185,20 @@
                 @elseif ($model === 'FoodType')
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>
                     <p class="text-gray-600"><span class="font-bold">Description: </span>{{ $item->description }}</p>
-                    <!-- FOODTYPE NEEDS CONTROLLER AND OTHER STUFF ASAP -->
+
+                    <div class="flex gap-4">
+                        <form action="{{ route('foodtypes.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this food type?');">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Delete</button>
+                        </form>
+    
+                        <form action="{{ route('foodtypes.edit', $item->id) }}" method="GET" onsubmit="return confirm('Are you sure you want to edit this food type?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Edit</button>
+                        </form>
+                    </div>
+
                 @elseif ($model === 'NewsItem')
                     <p class="text-gray-600"><span class="font-bold">Title: </span>{{ $item->title }}</p>
                     <p class="text-gray-600"><span class="font-bold">Content: </span>{{ $item->content }}</p>
