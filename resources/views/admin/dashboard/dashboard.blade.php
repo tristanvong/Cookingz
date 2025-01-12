@@ -125,13 +125,25 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         @forelse ($results as $item)
-            <div class="bg-white p-4 rounded-lg shadow-md">
+            <div class="bg-white p-4 rounded-lg shadow-md border-4 border-amber-500">
                 @if ($model === 'ContactForm')
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>
                     <p class="text-gray-600"><span class="font-bold">Email: </span>{{ $item->email }}</p>
                     <p class="text-gray-600"><span class="font-bold">Message: </span>{{ $item->message }}</p>
                     <p class="text-sm text-gray-500"><span class="font-bold">Status: </span>{{ $item->status }}</p>
                     <p class="text-gray-600"><span class="font-bold">Reply: </span>{{ $item->reply ?? 'no reply yet' }}</p>
+                    <div class="flex gap-4">
+                        <form action="{{ route('admin.contactForms.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact form?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Delete Contact Form</button>
+                        </form>
+    
+                        <form action="{{ route('admin.contactForms.show', $item->id) }}" method="GET" onsubmit="return confirm('Are you sure you want to repy to this contact form?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Reply to this Contact Form</button>
+                        </form>
+                    </div>
                 @elseif ($model === 'FAQProposal')
                     <p class="text-gray-600"><span class="font-bold">Question: </span>{{ $item->question }}</p>
                     <p class="text-gray-600"><span class="font-bold">Answer: </span>{{ $item->answer }}</p>
@@ -139,18 +151,43 @@
                     <p class="text-gray-600"><span class="font-bold">Category: </span>{{ $item->category->name ?? 'No category assigned or something went wrong when loading' }}</p>
                     <p class="text-gray-600"><span class="font-bold">Proposed by: </span>
                     <a href="/p/{{$item->user->id}}" class="text-amber-500 hover:text-amber-600 hover:underline"><span>@</span>{{ $item->user->username ?? 'No category assigned or something went wrong when loading' }}</a>
+                    @if($item->status === 'pending')
+                        <div class="flex gap-4">
+                            <form action="{{ route('faq-proposals.approve', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to approve this faq proposal?');">
+                                @csrf
+                                <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Approve</button>
+                            </form>
+        
+                            <form action="{{ route('faq-proposals.reject', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to reject this faq proposal?');">
+                                @csrf
+                                <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Reject</button>
+                            </form>
+                        </div>
+                    @endif
                     </p>
                 @elseif ($model === 'FAQItem')
                     <p class="text-gray-600"><span class="font-bold">Question: </span>{{ $item->question }}</p>
                     <p class="text-gray-600"><span class="font-bold">Answer: </span>{{ $item->answer }}</p>
                     <p class="text-gray-600"><span class="font-bold">Category: </span>{{ $item->category->name ?? 'No category assigned or something went wrong when loading' }}</p>
+                    <div class="flex gap-4">
+                        <form action="{{ route('faqs.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this faq item?');">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Delete</button>
+                        </form>
+    
+                        <form action="{{ route('faqs.edit', $item->id) }}" method="GET" onsubmit="return confirm('Are you sure you want to edit this faq item?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Edit</button>
+                        </form>
+                    </div>
                 @elseif ($model === 'FoodType')
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>
                     <p class="text-gray-600"><span class="font-bold">Description: </span>{{ $item->description }}</p>
+                    <!-- FOODTYPE NEEDS CONTROLLER AND OTHER STUFF ASAP -->
                 @elseif ($model === 'NewsItem')
                     <p class="text-gray-600"><span class="font-bold">Title: </span>{{ $item->title }}</p>
                     <p class="text-gray-600"><span class="font-bold">Content: </span>{{ $item->content }}</p>
-
                     @if ($item->image)
                         <div>
                             <span class="font-bold text-gray-600">Image: </span>
@@ -160,6 +197,18 @@
                         </div>
                     @endif
                     <p class="text-gray-600"><span class="font-bold">Published at: </span>{{ $item->published_at->format('d F Y') }}</p>
+                    <div class="flex gap-4">
+                        <form action="{{ route('admin.news.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this news item?');">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Delete</button>
+                        </form>
+    
+                        <form action="{{ route('admin.news.edit', $item->id) }}" method="GET" onsubmit="return confirm('Are you sure you want to edit this news item?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Edit</button>
+                        </form>
+                    </div>
                 @elseif ($model === 'Recipe')
                     @if ($item->image)
                         <div>
@@ -218,7 +267,7 @@
                     @endif
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>
                     <p class="text-gray-600"><span class="font-bold">Username: </span><a href="/p/{{$item->id}}" class="text-amber-500 hover:text-amber-600 hover:underline"><span>@</span>{{ $item->username }}</a></p>
-                    <p class="text-gray-600"><span class="font-bold">Username: </span>{{ $item->username }}</p>
+                    <p class="text-gray-600"><span class="font-bold">Role: </span>{{ $item->role }}</p>
                     <p class="text-gray-600"><span class="font-bold">Email: </span>{{ $item->email }}</p>
                     @if($item->email_verified_at)
                         <p class="text-green-600"><span class="font-bold">Email Verified: </span>{{ $item->email_verified_at->format('d F Y') }}</p>
@@ -226,6 +275,17 @@
                         <p class="text-red-600"><span class="font-bold">Email Not Verified</span></p>
                     @endif
                     <p class="text-gray-600"><span class="font-bold">About me: </span>{{ $item->about_me }}</p>
+                    <div class="flex gap-4">
+                        <form action="{{ route('admin.users.makeAdmin', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to give this person Admin role?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Give Admin</button>
+                        </form>
+    
+                        <form action="{{ route('admin.users.revokeAdmin', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to revoke this person Admin role?');">
+                            @csrf
+                            <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Revoke Admin</button>
+                        </form>
+                    </div>
                 @else
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>
                     <p class="text-gray-600"><span class="font-bold">Description: </span>{{ $item->description }}</p>
