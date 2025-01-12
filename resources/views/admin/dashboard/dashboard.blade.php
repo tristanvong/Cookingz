@@ -35,7 +35,7 @@
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search by name, email or ID"
-                class="py-2 px-4 border rounded-lg"
+                class="py-2 px-4 border rounded-lg w-64"
             >
             @elseif ($model == 'FAQItem')
             <input
@@ -83,7 +83,7 @@
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search by username, email or ID"
-                class="py-2 px-4 border rounded-lg w-64"
+                class="py-2 px-4 border rounded-lg w-80"
             >
             @endif
             <button
@@ -106,6 +106,7 @@
 
         @if ($model == 'Category')
         <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/categories/create">Create Category</a>
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="{{route('categories.index')}}">Go to Category Index</a>
         @elseif ($model == 'ContactForm')
         <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/contact-forms">View Contact Forms</a>
         @elseif ($model == 'FAQItem')
@@ -120,7 +121,7 @@
         <!-- No need to create a Recipe this is just for readability -->
         @elseif ($model == 'User')
         <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="/admin/users/create">Create User</a>
-        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="{{route('admin.users.index')}}">Go to User index</a>
+        <a class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition" href="{{route('admin.users.index')}}">Go to User Index</a>
         @endif
     </div>
 
