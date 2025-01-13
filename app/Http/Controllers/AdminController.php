@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\ContactForm;
+use App\Models\FAQItem;
+use App\Models\FAQProposal;
+use App\Models\FoodType;
+use App\Models\NewsItem;
+use App\Models\Recipe;
 
 class AdminController extends Controller
 {
@@ -85,5 +92,92 @@ class AdminController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function dashboard(Request $request)
+    {
+        $model = $request->get('model', 'Category');
+        $query = $this->getModelQuery($model);
+
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            if ($model == 'Category') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'ContactForm') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('id', $search);
+                });
+            }elseif ($model == 'FAQItem' || $model == 'FAQProposal') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('question', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'FoodType') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }
+            elseif ($model == 'NewsItem') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'Recipe') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('id', $search);
+                });
+            }elseif ($model == 'User') {
+                $query->where(function ($q) use ($search) {
+                    $q->where('username', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('id', $search);
+                });
+            }
+        }
+
+        $results = $query->get();
+
+        return view('admin.dashboard.dashboard', compact('results', 'model'));
+    }
+
+    public function listAll(Request $request)
+    {
+        $model = $request->get('model', 'Category');
+        $query = $this->getModelQuery($model);
+
+        $results = $query->get();
+
+        return view('admin.dashboard.dashboard', compact('results', 'model'));
+    }
+
+    private function getModelQuery($model)
+    {
+        switch ($model) {
+            case 'ContactForm':
+                return ContactForm::query();
+            case 'Category':
+                return Category::query();
+            case 'FAQItem':
+                return FAQItem::query()->with('category');
+            case 'FAQProposal':
+                return FAQProposal::query()->with('category', 'user');
+            case 'FoodType':
+                return FoodType::query();
+            case 'NewsItem':
+                return NewsItem::query();
+            case 'Recipe':
+                return Recipe::query()->with('category', 'user', 'foodTypes');
+            case 'User':
+                return User::query();
+            default:
+                return Category::query();
+        }
     }
 }

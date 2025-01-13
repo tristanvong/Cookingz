@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
         $imageContent = file_get_contents($imageUrl);
         Storage::disk('public')->put($placeholderImage, $imageContent);
 
-        $imageUrlAdmin = "https://i.imgur.com/zfjDHmI.jpeg";
+        $imageUrlAdmin = "https://i.imgur.com/OA7dxAR.png";
         $imageContentAdmin = file_get_contents($imageUrlAdmin);
         Storage::disk('public')->put($placeHolderImageAdmin, $imageContentAdmin);
 

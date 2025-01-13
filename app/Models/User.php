@@ -20,8 +20,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-     public const USER = 'user';
-     public const ADMIN = 'admin';
+    public const USER = 'user';
+    public const ADMIN = 'admin';
     protected $fillable = [
         'name',
         'username',
@@ -87,5 +87,10 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->sentMessages()->orWhere('receiver_id', $this->id);
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\CustomEmailVerificationNotification());
     }
 }

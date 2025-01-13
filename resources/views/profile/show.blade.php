@@ -14,7 +14,7 @@
                 <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
                 @elseif(Auth::id() === $user->id)
                 <h1 class="text-2xl font-bold text-gray-800">{{ $user->name }}</h1>
-                <small>(viewing own profile full name not shown for other user= privacy mode is enabled)</small><br>
+                <small>(Viewing own profile full name not shown for other user, privacy mode is enabled)</small><br>
                 @endif
                 <p class="text-gray-600 text-xl inline-flex">
                     <span>@</span>

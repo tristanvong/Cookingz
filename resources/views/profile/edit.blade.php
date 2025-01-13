@@ -18,7 +18,7 @@
         </a>
         @if(Auth::user()->role === 'admin') 
         <div class="border-l-2 border-white h-8 mx-4"></div>
-            <a href="#" 
+            <a href="/admin/dashboard" 
             class="border-white text-xl py-2 px-4 bg-amber-500 text-white rounded-lg shadow-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ml-4">
                 Go To Admin Panel
             </a>

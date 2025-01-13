@@ -65,7 +65,7 @@
             </div>
         </form>
         <div class="mt-4 text-center">
-            <p class="text-sm text-gray-600">
+            <p class="text-md text-gray-600">
                 Don't have an account? 
                 <a href="{{ route('register') }}" class="text-amber-600 hover:text-amber-700">
                     Create one

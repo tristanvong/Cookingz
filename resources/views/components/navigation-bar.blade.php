@@ -1,7 +1,7 @@
 <nav class="bg-white shadow-md">
     <div class="container mx-auto gap-4 px-4 py-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 items-center">
         <div class="text-2xl font-bold text-gray-800 justify-self-center md:justify-self-center lg:justify-self-start">
-            <a href="#" class="hover:text-amber-500">
+            <a href="{{route('profile.edit')}}" class="hover:text-amber-500">
                 <img src="{{ asset('images/logo.png') }}" alt="">
             </a>
         </div>

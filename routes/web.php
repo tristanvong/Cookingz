@@ -12,6 +12,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FAQProposalController;
+use App\Http\Controllers\FoodTypeController;
 
 Route::prefix('p')
     ->name('profile.')
@@ -182,6 +183,9 @@ Route::prefix('admin')
         Route::post('users/make-admin/{id}', 'makeAdmin')->name('users.makeAdmin');
         Route::post('users/revoke-admin/{id}', 'revokeAdmin')->name('users.revokeAdmin'); 
         Route::delete('users/{id}', 'destroy')->name('users.destroy'); 
+
+        Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('list-all', 'listAll')->name('listAll');
 });
 
 Route::name('reviews.')
@@ -194,4 +198,16 @@ Route::name('reviews.')
         Route::delete('/recipes/{recipeId}/reviews/{id}', 'destroy')->name('destroy');
 });
 
+Route::name('foodtypes.')
+    ->prefix('food-types')
+    ->middleware('isAdmin')
+    ->controller(FoodTypeController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+});
 require __DIR__.'/auth.php';
