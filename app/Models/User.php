@@ -79,9 +79,7 @@ class User extends Authenticatable
 
     public function publicMessages()
     {
-        return $this->sentMessages()->where('type', 'public')
-                                ->orWhere('receiver_id', $this->id)
-                                ->where('type', 'public');
+        return $this->receivedMessages()->where('type', 'public');
     }
 
     public function messages()
