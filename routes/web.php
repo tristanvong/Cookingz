@@ -15,6 +15,8 @@ use App\Http\Controllers\FAQProposalController;
 use App\Http\Controllers\FoodTypeController;
 use App\Http\Controllers\BlacklistController;
 
+Route::get('/', [RecipeController::class, 'index'])->name('home');
+
 Route::prefix('p')
     ->name('profile.')
     ->middleware('auth', 'isNotBlacklisted')
@@ -43,16 +45,6 @@ Route::prefix('messages')
         Route::get('/public/{user}', 'publicMessages')->name('public');
         Route::post('/public/{user}', 'storePublic')->name('storePublic');
 });
-
-// this stuff will be overwritten so will keep it for now
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-// --- end of overwritten stuff ---
 
 Route::name('recipes.')
     ->controller(RecipeController::class)

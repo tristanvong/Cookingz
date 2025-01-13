@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
             Auth::login($user, $request->has('remember'));
     
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([
