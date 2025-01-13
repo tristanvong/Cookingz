@@ -2,6 +2,8 @@
 @section('title', 'Admin Dashboard'. ' - '. $model)
 @section('content')
 <div class="container mx-auto px-6 py-8">
+<x-success-message />
+<x-error-message />
 
     <div class="flex space-x-4 mb-6">
         <form method="GET" action="{{ route('admin.listAll') }}">
@@ -284,6 +286,9 @@
                     <p class="text-gray-600"><span class="font-bold">Username: </span><a href="/p/{{$item->id}}" class="text-amber-500 hover:text-amber-600 hover:underline"><span>@</span>{{ $item->username }}</a></p>
                     <p class="text-gray-600"><span class="font-bold">Role: </span>{{ $item->role }}</p>
                     <p class="text-gray-600"><span class="font-bold">Email: </span>{{ $item->email }}</p>
+                    @if($item->blacklist)
+                        <p class="text-red-600"><span class="font-bold">Blacklisted: </span>{{ $item->blacklist->reason }}</p>
+                    @endif
                     @if($item->email_verified_at)
                         <p class="text-green-600"><span class="font-bold">Email Verified: </span>{{ $item->email_verified_at->format('d F Y') }}</p>
                     @else
@@ -300,6 +305,23 @@
                             @csrf
                             <button type="submit" class="py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition">Revoke Admin</button>
                         </form>
+
+                        
+                    @if($item->is_blacklisted)
+                        <form action="{{ route('blacklists.delete', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to revoke this user\'s blacklist?');">
+                            @csrf
+                            @method('DELETE')
+                            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Unblacklist</button>
+                        </form>
+                    @else
+                        <form action="{{ route('blacklists.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to blacklist this user?');">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $item->id }}">
+                            <input type="text" name="reason" placeholder="Reason for blacklisting" class="border border-gray-300 px-2 py-1 rounded mb-2">
+                            <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Blacklist</button>
+                        </form>
+                    @endif
+
                     </div>
                 @else
                     <p class="text-gray-600"><span class="font-bold">Name: </span>{{ $item->name }}</p>

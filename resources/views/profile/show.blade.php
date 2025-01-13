@@ -3,6 +3,21 @@
 @section('content')
 <div class="container mx-auto px-4 py-8 flex justify-center">
         <div class="bg-white shadow-md rounded-lg p-6 lg:w-4/5">
+            <x-success-message />
+            <x-error-message />
+            @if ($user->blacklist)
+                <div class="bg-red-100 text-red-800 p-4 mb-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold">This person has been blacklisted</h2>
+                    <p class="mt-2">The reason is: <strong>{{ $user->blacklist->reason }}</strong></p>
+                </div>
+                @if(optional(Auth::user())->id === $user->id)
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button type="submit" 
+                        class="px-6 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Logout</button>
+                    </form>
+                @endif
+            @endif
             <div class="text-center">
                 @if ($user->profile_picture && file_exists(storage_path('app/public/' . $user->profile_picture)))
                     @include('components.profile-picture', ['user' => $user, 'noProfilePicture' => false])
