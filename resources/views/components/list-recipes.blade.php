@@ -12,6 +12,8 @@
     </form>
 </div>
 
+<x-error-message />
+
 
 <div class="mb-6">
     <a href="{{ route('recipes.create') }}" class="inline-block py-2 px-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700">

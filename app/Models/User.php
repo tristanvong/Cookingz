@@ -10,6 +10,7 @@ use App\Models\Recipe;
 use App\Models\Review;
 use App\Models\Message;
 use App\Models\Blacklist;
+use App\Notifications\CustomPasswordResetNotification;
 
 class User extends Authenticatable
 {
@@ -102,5 +103,10 @@ class User extends Authenticatable
     public function isBlacklisted(): bool
     {
         return $this->blacklist !== null;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomPasswordResetNotification($token));
     }
 }

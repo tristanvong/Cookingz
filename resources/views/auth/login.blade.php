@@ -56,6 +56,12 @@
             </div>
 
             <div>
+                <a href="{{ route('password.request') }}" class="text-sm text-amber-600 hover:text-amber-700">
+                    Forgot your password?
+                </a>
+            </div>
+
+            <div>
                 <button 
                     type="submit" 
                     class="w-full py-2 px-4 bg-amber-600 text-white rounded-lg shadow-md hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
