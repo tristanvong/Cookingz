@@ -9,18 +9,6 @@ use App\Models\User;
 
 class BlacklistController extends Controller
 {
-    public function index()
-    {
-        $blacklistedUsers = Blacklist::with('user')->get();
-        return view('admin.users.blacklist.index', compact('blacklistedUsers'));
-    }
-
-    public function create()
-    {
-        $users = User::whereDoesntHave('blacklist')->get();
-        return view('admin.users.blacklist.create', compact('users'));
-    }
-
     public function store(Request $request)
     {
         $request->validate([
