@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('profile_picture')->nullable();
             $table->boolean('privacy_mode')->default(false);
             $table->rememberToken();
+            $table->boolean('is_blacklisted')->default(false);
             $table->timestamps();
         });
 

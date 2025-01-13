@@ -175,7 +175,7 @@ class AdminController extends Controller
             case 'Recipe':
                 return Recipe::query()->with('category', 'user', 'foodTypes');
             case 'User':
-                return User::query();
+                return User::query()->with('blacklist');
             default:
                 return Category::query();
         }

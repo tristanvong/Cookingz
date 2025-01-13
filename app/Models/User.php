@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Recipe;
 use App\Models\Review;
 use App\Models\Message;
+use App\Models\Blacklist;
 
 class User extends Authenticatable
 {
@@ -32,6 +33,7 @@ class User extends Authenticatable
         'about_me',
         'profile_picture',
         'privacy_mode',
+        'is_blacklisted',
     ];
 
     /**
@@ -90,5 +92,15 @@ class User extends Authenticatable
     public function sendEmailVerificationNotification()
     {
         $this->notify(new \App\Notifications\CustomEmailVerificationNotification());
+    }
+
+    public function blacklist()
+    {
+        return $this->hasOne(Blacklist::class);
+    }
+
+    public function isBlacklisted(): bool
+    {
+        return $this->blacklist !== null;
     }
 }

@@ -13,10 +13,11 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FAQProposalController;
 use App\Http\Controllers\FoodTypeController;
+use App\Http\Controllers\BlacklistController;
 
 Route::prefix('p')
     ->name('profile.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(ProfileController::class)
     ->group(function () {
         Route::get('/', 'edit')->name('edit');
@@ -33,7 +34,7 @@ Route::prefix('p')
 
 Route::prefix('messages')
     ->name('messages.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(MessageController::class)
     ->group(function () {
         Route::get('/conversations', 'conversations')->name('conversations');
@@ -61,7 +62,7 @@ Route::name('recipes.')
 });
 
 Route::name('recipes.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(RecipeController::class)
     ->group(function(){
         Route::get('/recipes/create', 'create')->name('create');
@@ -74,7 +75,7 @@ Route::name('recipes.')
 
 Route::prefix('categories')
     ->name('categories.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(CategoryController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
@@ -95,7 +96,7 @@ Route::prefix('faqs')
 
 Route::prefix('faq-proposals')
     ->name('faq-proposals.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(FAQProposalController::class)
     ->group(function () {
         Route::get('create', 'create')->name('create');  
@@ -106,7 +107,7 @@ Route::prefix('faq-proposals')
 
 Route::prefix('faq-proposals')
     ->name('faq-proposals.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(FAQProposalController::class)
     ->group(function () {
         Route::post('{id}/approve', 'approve')->name('approve');
@@ -115,7 +116,7 @@ Route::prefix('faq-proposals')
 
 Route::prefix('faq')
     ->name('faqs.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(FAQController::class)
     ->group(function () {
         Route::get('create', 'create')->name('create');
@@ -134,7 +135,7 @@ Route::prefix('news')
 });
 
 Route::name('comments.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(CommentController::class)
     ->group(function () {
         Route::post('/news/{newsItem}/comments', 'store')->name('store');
@@ -143,7 +144,7 @@ Route::name('comments.')
 
 Route::prefix('admin/news')
     ->name('admin.news.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(NewsItemController::class)
     ->group(function () {
         Route::get('create', 'create')->name('create');
@@ -163,7 +164,7 @@ Route::prefix('contact')
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(ContactController::class)
     ->group(function () {
         Route::get('/contact-forms', 'listContactForms')->name('contactForms.index');
@@ -174,7 +175,7 @@ Route::prefix('admin')
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(AdminController::class)
     ->group(function () {
         Route::get('users', 'listAllUsers')->name('users.index'); 
@@ -189,7 +190,7 @@ Route::prefix('admin')
 });
 
 Route::name('reviews.')
-    ->middleware('auth')
+    ->middleware('auth', 'isNotBlacklisted')
     ->controller(ReviewController::class)
     ->group(function () {
         Route::post('/recipes/{recipeId}/reviews', 'store')->name('store');
@@ -200,7 +201,7 @@ Route::name('reviews.')
 
 Route::name('foodtypes.')
     ->prefix('food-types')
-    ->middleware('isAdmin')
+    ->middleware('isAdmin', 'isNotBlacklisted')
     ->controller(FoodTypeController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
@@ -210,4 +211,16 @@ Route::name('foodtypes.')
         Route::put('/{id}', 'update')->name('update');
         Route::delete('/{id}', 'destroy')->name('destroy');
 });
+
+Route::name('blacklists.')
+    ->prefix('blacklists')
+    ->middleware('auth')
+    ->controller(BlacklistController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');               
+        Route::get('/create', 'create')->name('create');       
+        Route::post('/', 'store')->name('store');              
+        Route::delete('/delete/{userId}', 'delete')->name('delete');
+});
+
 require __DIR__.'/auth.php';

@@ -82,6 +82,22 @@
                                         Delete
                                     </button>
                                 </form>
+
+                                @if($user->is_blacklisted)
+                                    <form action="{{ route('blacklists.delete', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to revoke this user\'s blacklist?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Unblacklist</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('blacklists.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to blacklist this user?');">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                        <input type="text" name="reason" placeholder="Reason for blacklisting" class="border border-gray-300 px-2 py-1 rounded mb-2">
+                                        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Blacklist</button>
+                                    </form>
+                                @endif
+
                             </div>
                         </td>
                     </tr>
