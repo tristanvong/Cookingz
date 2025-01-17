@@ -165,3 +165,6 @@ Follow these steps to set up Cookingz locally:
 		[Link to Eye Icon](https://fontawesome.com/v6/icons/eye?f=classic&s=solid)
 	- Eye Slash Icon
 		[Link to Eye Slash Icon](https://fontawesome.com/v6/icons/eye-slash?f=classic&s=solid)
+
+- Logo
+    Logo was made by me using [paint.net](https://www.getpaint.net/), the cookie icon I used was the same as the SVG above, I converted it to PNG. The font used is [Brown Cake](https://www.dafont.com/brown-cake-2.font).
