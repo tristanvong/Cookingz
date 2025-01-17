@@ -125,10 +125,9 @@ Follow these steps to set up Cookingz locally:
     ```
    
 ## Information (ER-Diagram, Kanban Trello and source credits)
-- [rentry.co/cookingz](https://rentry.co/cookingz)
 
 ### 1. ER-Diagram
-![ER-Diagram - Cookingz]()
+![ER-Diagram - Cookingz](https://i.imgur.com/wHLZE0g.png)
 
 ### 2. Kanban Trello
 - [Trello](https://trello.com/b/zEEBwU9s/kanban-backend-web-cookingz)
@@ -138,3 +137,31 @@ Follow these steps to set up Cookingz locally:
 
 ### 4. Additional Information
 - I populate my placeholders for user placeholder profile picture and admin profile picture using imgur in the case of the images not being available please upload your own placeholder images with the name "placeholder.png" and "placeholderAdmin.png" in profile_pictures folder. The same goes for "placeholder.png" from news_images and recipe_images folder. Normally these images are taken from imgur in the seeder and put in the storage folder.
+
+- Icons (SVGs)
+    - Star Full Filled  
+      	[Link to Star Icon](https://fontawesome.com/icons/star?f=classic&s=solid)  
+	- Star Half Filled
+		[Link to half filled star](https://fontawesome.com/v6/icons/star-half-stroke?f=classic&s=solid)
+	- Star Hollow
+		[Link to Star Hollow Icon](https://fontawesome.com/icons/star?f=classic&s=regular)
+	- Cookie Icon
+		[Link to Cookie Icon](https://commons.wikimedia.org/wiki/File:Oxygen480-apps-preferences-web-browser-cookies.svg)
+	- LinkedIn Icon
+		[Link to LinkedIn Icon](https://fontawesome.com/icons/linkedin?f=brands&s=solid)
+	- Mail Icon
+		[Link to Mail Icon](https://fontawesome.com/icons/envelope?f=classic&s=solid)
+	- Admin Icon
+		[Link to Admin Icon](https://fontawesome.com/v6/icons/user-secret?f=classic&s=solid)
+	- Notification Icon
+		[Link to Notification Icon](https://fontawesome.com/v6/icons/circle-exclamation?f=classic&s=solid)
+	- Pencil Icon
+		[Link to Pencil Icon](https://fontawesome.com/v6/icons/pencil?f=classic&s=solid)
+	- Trash Icon
+		[Link to Trash Icon](https://fontawesome.com/v6/icons/trash-can?f=classic&s=solid)
+	- User Icon
+		[Link to User Icon](https://fontawesome.com/v6/icons/user?f=classic&s=solid)
+	- Eye Icon
+		[Link to Eye Icon](https://fontawesome.com/v6/icons/eye?f=classic&s=solid)
+	- Eye Slash Icon
+		[Link to Eye Slash Icon](https://fontawesome.com/v6/icons/eye-slash?f=classic&s=solid)
