@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.admin')
 @section('title', 'Admin Dashboard'. ' - '. $model)
 @section('content')
 <div class="container mx-auto px-6 py-8">

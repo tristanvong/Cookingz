@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.admin')
 @section('title', 'Manage Users')
 @section('content')
 <div class="container mx-auto mt-8 mb-8">
