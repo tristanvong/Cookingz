@@ -106,6 +106,10 @@ Follow these steps to set up Cookingz locally:
     php artisan key:generate
     php artisan migrate:fresh --seed
     ```
+    Make storage folder accessible (images will not show on the website if not done):
+    ```bash
+    php artisan storage:link
+    ```
     
 6. **Start the project with ./start.sh:**
 
@@ -124,7 +128,7 @@ Follow these steps to set up Cookingz locally:
 - [rentry.co/cookingz](https://rentry.co/cookingz)
 
 ### 1. ER-Diagram
-![ER-Diagram - 1tool1]()
+![ER-Diagram - Cookingz]()
 
 ### 2. Kanban Trello
 - [Trello](https://trello.com/b/zEEBwU9s/kanban-backend-web-cookingz)
@@ -133,4 +137,4 @@ Follow these steps to set up Cookingz locally:
 - [Laravel Documentation page](https://laravel.com/docs/11.x/readme)
 
 ### 4. Additional Information
-- placeholder
+- I populate my placeholders for user placeholder profile picture and admin profile picture using imgur in the case of the images not being available please upload your own placeholder images with the name "placeholder.png" and "placeholderAdmin.png" in profile_pictures folder. The same goes for "placeholder.png" from news_images and recipe_images folder. Normally these images are taken from imgur in the seeder and put in the storage folder.
