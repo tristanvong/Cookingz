@@ -170,3 +170,4 @@ Follow these steps to set up Cookingz locally:
     Logo was made by me using [paint.net](https://www.getpaint.net/), the cookie icon I used was the same as the SVG above, I converted it to PNG. The font used is [Brown Cake](https://www.dafont.com/brown-cake-2.font).
 - Background
     The background I use comes from [uiverse.io](https://uiverse.io/kennyotsu/short-warthog-33), it is protected under the MIT-license acording to their website (scroll to the bottom of the homepage at the left).
+- Technologies: Laravel, TailwindCSS, MySQL
