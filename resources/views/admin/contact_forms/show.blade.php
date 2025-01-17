@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.admin')
 @section('title', 'Contact Form Details')
 @section('content')
 <div class="container mx-auto mt-8 mb-8 px-4 md:w-4/5 lg:w-3/4">
